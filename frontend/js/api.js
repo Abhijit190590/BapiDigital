@@ -3,7 +3,7 @@
  * Centralizes all backend communication
  */
 const API = (() => {
-  const BASE_URL = 'http://localhost:8081/api';
+  const BASE_URL = 'https://bapidigital.onrender.com/api';
 
   function getToken() {
     return localStorage.getItem('bapi_token');
