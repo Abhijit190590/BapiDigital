@@ -1,268 +1,180 @@
 /**
- * Bapi Digital - Home Page Logic
+ * Bapi Digital - Enhanced Home Page Logic
+ * Features: Cart, Wishlist, Theme Toggle, Product Filtering, and Animations
  */
 (function () {
   let allProducts = [];
+  let cart = JSON.parse(localStorage.getItem('bapi_cart')) || [];
+  let wishlist = JSON.parse(localStorage.getItem('bapi_wishlist')) || [];
   let whatsappNumber = '';
-  let currentCategory = 'ALL';
-  let searchTimeout = null;
 
   // DOM Elements
-  const productGrid = document.getElementById('productGrid');
-  const recentProducts = document.getElementById('recentProducts');
-  const recentSection = document.getElementById('recentSection');
-  const searchInput = document.getElementById('searchInput');
-  const filterTabs = document.getElementById('filterTabs');
-  const emptyState = document.getElementById('emptyState');
-  const productCount = document.getElementById('productCount');
+  const featuredGrid = document.getElementById('featuredGrid');
+  const recentGrid = document.getElementById('recentGrid');
+  const bestSellersGrid = document.getElementById('bestSellersGrid');
+  const mainSearch = document.getElementById('mainSearch');
+  const cartCount = document.getElementById('cartCount');
+  const themeToggle = document.getElementById('themeToggle');
+  const pageLoader = document.getElementById('pageLoader');
 
-  // Init
   async function init() {
-    if (!productGrid) return; // page doesn't have product grid — nothing to do
-    productGrid.innerHTML = createSkeletonCards(8);
+    updateCartCount();
     setupEventListeners();
     
     try {
+      // 1. Load Global Config
       const waNumber = await API.getWhatsAppNumber();
-      whatsappNumber = waNumber;
+      whatsappNumber = waNumber || '910000000000';
+      document.getElementById('displayPhone').textContent = '+' + whatsappNumber;
+      document.getElementById('whatsappLink').href = `https://wa.me/${whatsappNumber}?text=${encodeURIComponent('Hello, I have a query regarding your products.')}`;
+
+      // 2. Load Products
+      const products = await API.getProducts();
+      allProducts = products.content || products;
       
-      // Update Contact Us button immediately after getting number
-      const contactBtn = document.getElementById('contactUsBtn');
-      if (contactBtn) {
-        const finalNumber = waNumber || '910000000000'; // Fallback number
-        contactBtn.href = `https://wa.me/${finalNumber}?text=${encodeURIComponent('Hello, I have a query regarding your products.')}`;
-        contactBtn.target = '_blank';
-      }
+      renderFeatured();
+      renderRecent();
+      renderBestSellers();
     } catch (err) {
-      console.error('Error loading WhatsApp number:', err);
-      // Fallback for button if API fails
-      const contactBtn = document.getElementById('contactUsBtn');
-      if (contactBtn) {
-        contactBtn.href = `https://wa.me/910000000000?text=${encodeURIComponent('Hello!')}`;
-        contactBtn.target = '_blank';
+      console.error('Init error:', err);
+      showToast('Error loading store data', 'error');
+    } finally {
+      // Hide loader
+      if (pageLoader) {
+        pageLoader.style.opacity = '0';
+        setTimeout(() => pageLoader.style.visibility = 'hidden', 500);
       }
-    }
-
-    try {
-      // Load categories dynamically for filters
-      const categories = await API.getCategories();
-      const filterTabs = document.getElementById('filterTabs');
-      if (filterTabs && categories.length > 0) {
-        let tabsHtml = '<button class="filter-tab active" data-category="ALL">All</button>';
-        tabsHtml += categories.map(c => `
-          <button class="filter-tab" data-category="${c.name}">${c.icon || '📦'} ${c.name}</button>
-        `).join('');
-        filterTabs.innerHTML = tabsHtml;
-      }
-
-      const [products, settings] = await Promise.all([
-        API.getProducts(),
-        API.getSiteSettings(),
-      ]);
-      allProducts = products;
-      renderRecentProducts();
-      renderProducts(allProducts);
-    } catch (err) {
-      productGrid.innerHTML = '';
-      emptyState.style.display = 'block';
-      emptyState.querySelector('h3').textContent = 'Connection Error';
-      emptyState.querySelector('p').textContent = err.message;
-    }
-  }
-
-    } catch (err) {
-      console.error('Error loading WhatsApp number:', err);
-      // Fallback for button if API fails
-      const contactBtn = document.getElementById('contactUsBtn');
-      if (contactBtn) {
-        contactBtn.href = `https://wa.me/910000000000?text=${encodeURIComponent('Hello!')}`;
-        contactBtn.target = '_blank';
-      }
-    }
-
-    try {
-      const [products, settings] = await Promise.all([
-        API.getProducts(),
-        API.getSiteSettings(),
-      ]);
-      allProducts = products;
-      renderRecentProducts();
-      renderProducts(allProducts);
-    } catch (err) {
-      productGrid.innerHTML = '';
-      emptyState.style.display = 'block';
-      emptyState.querySelector('h3').textContent = 'Connection Error';
-      emptyState.querySelector('p').textContent = err.message;
-    }
-  }
-  
-  function setupEventListeners() {
-    // Search
-    searchInput.addEventListener('input', (e) => {
-      clearTimeout(searchTimeout);
-      searchTimeout = setTimeout(() => filterProducts(), 300);
-    });
- 
-    // Category Filters
-    filterTabs.addEventListener('click', (e) => {
-      const tab = e.target.closest('.filter-tab');
-      if (!tab) return;
-      filterTabs.querySelectorAll('.filter-tab').forEach(t => t.classList.remove('active'));
-      tab.classList.add('active');
-      currentCategory = tab.dataset.category;
-      filterProducts();
-    });
- 
-    // Mobile Nav Toggle
-    const navToggle = document.getElementById('navToggle');
-    const navLinks = document.getElementById('navLinks');
-    const navOverlay = document.getElementById('navOverlay');
-    
-    navToggle.addEventListener('click', () => {
-      navLinks.classList.toggle('open');
-      navOverlay.classList.toggle('active');
-    });
-    
-    navOverlay.addEventListener('click', () => {
-      navLinks.classList.remove('open');
-      navOverlay.classList.remove('active');
-    });
-
-    document.querySelectorAll('.nav-links a').forEach(link => {
-      link.addEventListener('click', () => {
-        navLinks.classList.remove('open');
-        navOverlay.classList.remove('active');
-      });
-    });
-  }
-
-
-  async function filterProducts() {
-    const query = searchInput.value.trim().toLowerCase();
-    
-    try {
-      let products;
-      if (query) {
-        products = await API.searchProducts(query);
-      } else if (currentCategory !== 'ALL') {
-        products = await API.getProductsByCategory(currentCategory);
-      } else {
-        // Since backend now uses pagination, we get the first page
-        const pageData = await API.getProducts();
-        products = pageData.content || pageData;
-      }
-      renderProducts(products);
-    } catch (err) {
-      showToast('Error filtering products: ' + err.message, 'error');
     }
   }
 
   function setupEventListeners() {
+    // Theme Toggle
+    themeToggle.addEventListener('click', () => {
+      const currentTheme = document.documentElement.getAttribute('data-theme');
+      const newTheme = currentTheme === 'dark' ? 'light' : 'dark';
+      document.documentElement.setAttribute('data-theme', newTheme);
+      localStorage.setItem('bapi_theme', newTheme);
+    });
+
+    // Set initial theme
+    const savedTheme = localStorage.getItem('bapi_theme') || 'light';
+    document.documentElement.setAttribute('data-theme', savedTheme);
+
     // Search
-    searchInput.addEventListener('input', (e) => {
-      clearTimeout(searchTimeout);
-      searchTimeout = setTimeout(() => filterProducts(), 300);
+    mainSearch.addEventListener('input', (e) => {
+      const query = e.target.value.trim().toLowerCase();
+      if (query.length > 2) {
+        // When searching, we transform the featured grid into search results
+        performSearch(query);
+      } else if (query.length === 0) {
+        renderFeatured();
+      }
     });
-    
-    // Category Filters
-    filterTabs.addEventListener('click', (e) => {
-      const tab = e.target.closest('.filter-tab');
-      if (!tab) return;
-      filterTabs.querySelectorAll('.filter-tab').forEach(t => t.classList.remove('active'));
-      tab.classList.add('active');
-      currentCategory = tab.dataset.category;
-      filterProducts();
-    });
-    
-    // Mobile Nav Toggle
+
+    // Mobile Nav
     const navToggle = document.getElementById('navToggle');
-    const navLinks = document.getElementById('navLinks');
-    const navOverlay = document.getElementById('navOverlay');
-    
-    navToggle.addEventListener('click', () => {
-      navLinks.classList.toggle('open');
-      navOverlay.classList.toggle('active');
-    });
-    
-    navOverlay.addEventListener('click', () => {
-      navLinks.classList.remove('open');
-      navOverlay.classList.remove('active');
-    });
-    
-    document.querySelectorAll('.nav-links a').forEach(link => {
-      link.addEventListener('click', () => {
-        navLinks.classList.remove('open');
-        navOverlay.classList.remove('active');
+    if (navToggle) {
+      navToggle.addEventListener('click', () => {
+        document.querySelector('.nav-links').classList.toggle('open');
       });
-    });
-  }
-
-
-    if (query) {
-      filtered = filtered.filter(p =>
-        (p.name || '').toLowerCase().includes(query) ||
-        (p.description || '').toLowerCase().includes(query) ||
-        (p.category || '').toLowerCase().includes(query)
-      );
     }
-
-    renderProducts(filtered);
   }
 
-  function renderRecentProducts() {
-    const recent = allProducts.slice(0, 8);
-    if (recent.length === 0) { recentSection.style.display = 'none'; return; }
-    recentSection.style.display = 'block';
-    recentProducts.innerHTML = recent.map(p => createProductCard(p, true)).join('');
+  async function performSearch(query) {
+    featuredGrid.innerHTML = '<div class="loader-small">Searching...</div>';
+    try {
+      const results = await API.searchProducts(query);
+      renderProductsToGrid(results, featuredGrid);
+    } catch (err) {
+      showToast('Search failed', 'error');
+    }
   }
 
-  function renderProducts(products) {
-    if (products.length === 0) {
-      productGrid.innerHTML = '';
-      emptyState.style.display = 'block';
-      productCount.textContent = '';
+  function renderFeatured() {
+    // Featured = Top 8 products
+    const featured = allProducts.slice(0, 8);
+    renderProductsToGrid(featured, featuredGrid);
+  }
+
+  function renderRecent() {
+    // Recent = Last 10 products
+    const recent = allProducts.slice(0, 10);
+    renderProductsToGrid(recent, recentGrid);
+  }
+
+  function renderBestSellers() {
+    // Best Sellers = Sampled products for demo
+    const best = allProducts.filter((_, i) => i % 3 === 0).slice(0, 6);
+    renderProductsToGrid(best, bestSellersGrid);
+  }
+
+  function renderProductsToGrid(products, gridElement) {
+    if (!gridElement) return;
+    
+    if (!products || products.length === 0) {
+      gridElement.innerHTML = '<p style="grid-column: 1/-1; text-align:center; color:var(--text-muted);">No products found.</p>';
       return;
     }
-    emptyState.style.display = 'none';
-    productCount.textContent = `${products.length} product${products.length !== 1 ? 's' : ''}`;
-    productGrid.innerHTML = products.map(p => createProductCard(p)).join('');
 
-    // Animate cards in
-    productGrid.querySelectorAll('.product-card').forEach((card, i) => {
-      card.style.opacity = '0';
-      card.style.transform = 'translateY(20px)';
-      setTimeout(() => {
-        card.style.transition = 'all 0.4s ease';
-        card.style.opacity = '1';
-        card.style.transform = 'translateY(0)';
-      }, i * 60);
-    });
+    gridElement.innerHTML = products.map(p => {
+      const img = p.images && p.images.length > 0 ? p.images[0] : getPlaceholderImage();
+      const isWishlisted = wishlist.includes(p.id);
+      
+      return `
+        <div class="product-card">
+          <div class="wishlist-btn ${isWishlisted ? 'active' : ''}" onclick="toggleWishlist('${p.id}', this)">❤️</div>
+          <div class="discount-badge">HOT</div>
+          <div class="img-container">
+            <img src="${img}" alt="${p.name}" loading="lazy">
+          </div>
+          <div class="product-info">
+            <div class="product-rating">★★★★★ <span>(4.5)</span></div>
+            <div class="product-name">${p.name}</div>
+            <div class="product-price">
+              <span class="current-price">${formatPrice(p.price)}</span>
+              <span class="old-price">${formatPrice(p.price * 1.2)}</span>
+            </div>
+          </div>
+          <div class="product-actions">
+            <button class="btn-cart" onclick="addToCart('${p.id}')">Add to Cart</button>
+            <button class="btn-whatsapp" onclick="quickWhatsApp('${p.name}')">💬 WhatsApp</button>
+          </div>
+        </div>
+      `;
+    }).join('');
   }
 
-  function createProductCard(product, isRecent = false) {
-    const img = product.images && product.images.length > 0 ? product.images[0] : getPlaceholderImage();
-    const waLink = getWhatsAppLink(whatsappNumber, product.name, product.price);
+  // --- Functional Features ---
 
-    return `
-      <div class="product-card" onclick="window.location.href='product.html?id=${product.id}'">
-        <div class="card-image">
-          <img src="${img}" alt="${product.name}" loading="lazy">
-          ${isRecent ? '<span class="card-badge">New</span>' : ''}
-          <a href="${waLink}" target="_blank" class="card-whatsapp" onclick="event.stopPropagation()" title="Buy via WhatsApp">💬</a>
-        </div>
-        <div class="card-body">
-          <div class="card-category">${getCategoryIcon(product.category)} ${getCategoryLabel(product.category)}</div>
-          <div class="card-title">${product.name}</div>
-          <div class="card-desc">${product.description || ''}</div>
-        </div>
-        <div class="card-footer">
-          <div class="card-price">${formatPrice(product.price)}</div>
-          <a href="${waLink}" target="_blank" class="btn btn-whatsapp btn-sm" onclick="event.stopPropagation()">
-            💬 Buy
-          </a>
-        </div>
-      </div>
-    `;
+  window.addToCart = function (id) {
+    const product = allProducts.find(p => p.id === id);
+    if (!product) return;
+    
+    cart.push(product);
+    localStorage.setItem('bapi_cart', JSON.stringify(cart));
+    updateCartCount();
+    showToast(`Added ${product.name} to cart!`);
+  };
+
+  window.toggleWishlist = function (id, el) {
+    if (wishlist.includes(id)) {
+      wishlist = wishlist.filter(item => item !== id);
+      el.classList.remove('active');
+    } else {
+      wishlist.push(id);
+      el.classList.add('active');
+    }
+    localStorage.setItem('bapi_wishlist', JSON.stringify(wishlist));
+  };
+
+  window.quickWhatsApp = function (name) {
+    const msg = `Hi, I want to buy this product: ${name}. Please provide more details.`;
+    window.open(`https://wa.me/${whatsappNumber}?text=${encodeURIComponent(msg)}`, '_blank');
+  };
+
+  function updateCartCount() {
+    const el = document.getElementById('cartCount');
+    if (el) el.textContent = cart.length;
   }
 
   init();

@@ -3,112 +3,213 @@
 <head>
   <meta charset="UTF-8">
   <meta name="viewport" content="width=device-width, initial-scale=1.0">
-  <meta name="description" content="Bapi Digital - Premium photo studio products. Shop clothes, photo prints, and studio items.">
-  <title>Bapi Digital — Premium Studio Products</title>
+  <meta name="description" content="Bapi Digital - Premium photo studio products and services.">
+  <title>Bapi Digital | Modern Studio Store</title>
   <link rel="stylesheet" href="css/style.css">
   <link rel="icon" href="data:image/svg+xml,<svg xmlns='http://www.w3.org/2000/svg' viewBox='0 0 100 100'><text y='.9em' font-size='90'>📸</text></svg>">
 </head>
 <body>
-  <div class="nav-overlay" id="navOverlay"></div>
+
+  <!-- Loading Spinner -->
+  <div class="loader" id="pageLoader">
+    <div class="spinner"></div>
+  </div>
+
   <!-- Navbar -->
-  <nav class="navbar" id="navbar">
+  <nav class="navbar">
     <a href="index.html" class="nav-brand">
-      <div class="brand-icon">📸</div>
+      <span class="logo-icon">📸</span>
       Bapi Digital
     </a>
-    <ul class="nav-links" id="navLinks">
-      <li><a href="index.html" class="active">Home</a></li>
-      <li><a href="about.html">About Us</a></li>
-      <li><a href="index.html#productGrid">Catalogue</a></li>
-      <li><a href="gallery.html">Gallery</a></li>
-      <li><a href="feedback.html">Feedback</a></li>
-      <li><a href="admin/login.html">Admin</a></li>
-    </ul>
-    <button class="nav-toggle" id="navToggle" aria-label="Toggle menu">
-      <span></span><span></span><span></span>
-    </button>
+
+    <div class="nav-search">
+      <span class="search-icon">🔍</span>
+      <input type="text" id="mainSearch" placeholder="Search for clothes, studio gear..." autocomplete="off">
+    </div>
+
+    <div class="nav-menu">
+      <ul class="nav-links">
+        <li><a href="index.html" class="active">Home</a></li>
+        <li><a href="about.html">About</a></li>
+        <li><a href="index.html#featured">Shop</a></li>
+        <li><a href="gallery.html">Gallery</a></li>
+        <li><a href="feedback.html">Feedback</a></li>
+      </ul>
+      
+      <div class="nav-icons">
+        <div class="theme-toggle" id="themeToggle">
+          <div class="toggle-circle"></div>
+        </div>
+        <a href="admin/login.html" class="icon-btn" title="Admin Login">👤</a>
+        <div class="icon-btn" id="cartBtn" title="Shopping Cart">
+          🛒
+          <span class="cart-count" id="cartCount">0</span>
+        </div>
+      </div>
+    </div>
+    
+    <button class="nav-toggle" id="navToggle">☰</button>
   </nav>
 
   <main class="main-content">
-    <div class="container">
+    
+    <!-- Hero Section -->
+    <section class="hero">
+      <h1>Capture Moments, <br><span style="color: var(--primary);">Create Memories</span></h1>
+      <p>Premium quality photo studio products, elegant apparel, and professional gear for the modern creator.</p>
+      <a href="#featured" class="btn-main">Shop Collection Now</a>
+    </section>
 
-      <!-- Hero Section -->
-      <section class="hero animate-in">
-        <h1>Welcome to <span class="gradient-text">Bapi Digital</span></h1>
-        <p>Your one-stop shop for premium clothes, stunning photo prints, and professional studio equipment.</p>
-        <div class="hero-btns">
-          <a href="#productGrid" class="btn btn-primary">Explore Collection</a>
-          <a href="#" id="contactUsBtn" class="btn btn-outline">Contact Us</a>
-        </div>
-      </section>
+    <!-- Featured Products -->
+    <section class="section" id="featured">
+      <div class="section-header">
+        <h2 class="section-title">Featured <span>Collections</span></h2>
+        <a href="products.html" class="view-all">View All Products →</a>
+      </div>
+      <div class="product-grid" id="featuredGrid">
+        <!-- Products loaded via JS -->
+      </div>
+    </section>
 
-      <!-- Features Section -->
-      <section class="features-grid animate-in stagger-1">
-        <div class="feature-item">
-          <div class="feature-icon">✨</div>
-          <h3>Premium Quality</h3>
-          <p>Only the finest materials and prints for your professional needs.</p>
-        </div>
-        <div class="feature-item">
-          <div class="feature-icon">🚀</div>
-          <h3>Fast Delivery</h3>
-          <p>Quick turnaround and reliable shipping to your doorstep.</p>
-        </div>
-        <div class="feature-item">
-          <div class="feature-icon">🛠️</div>
-          <h3>Pro Gear</h3>
-          <p>Equip your studio with industry-standard tools and accessories.</p>
-        </div>
-      </section>
+    <!-- Recently Added (Horizontal) -->
+    <section class="section" style="background: var(--bg-secondary);">
+      <div class="section-header">
+        <h2 class="section-title">Recently <span>Added</span></h2>
+      </div>
+      <div class="horizontal-scroll" id="recentGrid">
+        <!-- Products loaded via JS -->
+      </div>
+    </section>
 
-      <!-- Search & Filters -->
-      <section class="search-section animate-in stagger-1">
-        <div class="search-box">
-          <span class="search-icon">🔍</span>
-          <input type="text" id="searchInput" placeholder="Search products..." autocomplete="off">
-        </div>
-        <div class="filter-tabs" id="filterTabs">
-          <button class="filter-tab active" data-category="ALL">All</button>
-          <button class="filter-tab" data-category="CLOTHES">👕 Clothes</button>
-          <button class="filter-tab" data-category="PHOTOS">📸 Photos</button>
-          <button class="filter-tab" data-category="STUDIO_ITEMS">🎬 Studio Items</button>
-        </div>
-      </section>
+    <!-- Best Sellers -->
+    <section class="section">
+      <div class="section-header">
+        <h2 class="section-title">Best <span>Sellers</span></h2>
+      </div>
+      <div class="product-grid" id="bestSellersGrid">
+        <!-- Products loaded via JS -->
+      </div>
+    </section>
 
-      <!-- Recently Added -->
-      <section id="recentSection" class="animate-in stagger-2" style="display:none;">
-        <div class="section-header">
-          <h2 class="section-title">🆕 <span class="highlight">Recently Added</span></h2>
+    <!-- Customer Reviews -->
+    <section class="section" style="background: var(--bg-secondary);">
+      <div class="section-header">
+        <h2 class="section-title">Customer <span>Stories</span></h2>
+      </div>
+      <div class="reviews-grid">
+        <div class="review-card">
+          <div class="review-user">
+            <img src="https://i.pravatar.cc/150?u=1" alt="User">
+            <div>
+              <h4>Rahul Sharma</h4>
+              <div class="review-stars">★★★★★</div>
+            </div>
+          </div>
+          <p class="review-text">"The print quality is absolutely stunning. Bapi Digital is now my go-to for all studio needs!"</p>
         </div>
-        <div class="recent-scroll" id="recentProducts"></div>
-      </section>
+        <div class="review-card">
+          <div class="review-user">
+            <img src="https://i.pravatar.cc/150?u=2" alt="User">
+            <div>
+              <h4>Priya Das</td>
+              <div class="review-stars">★★★★★</div>
+            </div>
+          </div>
+          <p class="review-text">"Amazing collection of clothes for shoots. The fabric is premium and the delivery was super fast."</p>
+        </div>
+        <div class="review-card">
+          <div class="review-user">
+            <img src="https://i.pravatar.cc/150?u=3" alt="User">
+            <div>
+              <h4>Amit Verma</h4>
+              <div class="review-stars">★★★★☆</div>
+            </div>
+          </div>
+          <p class="review-text">"Professional gear that actually works. Highly recommended for beginners and pros alike."</p>
+        </div>
+      </div>
+    </section>
 
-      <!-- All Products -->
-      <section class="animate-in stagger-3" style="margin-top: var(--space-2xl);">
-        <div class="section-header">
-          <h2 class="section-title">All <span class="highlight">Products</span></h2>
-          <span id="productCount" style="color: var(--text-muted); font-size: 0.85rem;"></span>
+    <!-- About Us -->
+    <section class="section">
+      <div class="about-container">
+        <img src="https://images.unsplash.com/photo-1542038784456-1ea8e935640e?q=80&w=1000" alt="Studio" class="about-image">
+        <div class="about-content">
+          <h2>Bapi Digital – Capture Moments, Create Memories</h2>
+          <p>With a passion for visual storytelling, we provide the tools and apparel that help photographers and creators bring their vision to life. From high-end studio gear to aesthetic outfits, we ensure every detail is perfect.</p>
+          <a href="about.html" class="btn-main" style="padding: 12px 24px; font-size: 1rem;">Learn More About Us</a>
         </div>
-        <div class="product-grid" id="productGrid">
-          <!-- Skeleton loaders -->
-        </div>
+      </div>
+    </section>
 
-        <!-- Empty State -->
-        <div class="empty-state" id="emptyState" style="display:none;">
-          <div class="empty-icon">📦</div>
-          <h3>No products found</h3>
-          <p>Try adjusting your search or filter criteria.</p>
+    <!-- Contact Section -->
+    <section class="section" style="background: var(--bg-secondary);">
+      <div class="section-header">
+        <h2 class="section-title">Get In <span>Touch</span></h2>
+      </div>
+      <div class="contact-wrapper">
+        <div class="contact-info">
+          <div class="info-item">
+            <div class="icon">📞</div>
+            <div>
+              <strong>Phone</strong><br>
+              <span id="displayPhone">+91 9876543210</span>
+            </div>
+          </div>
+          <div class="info-item">
+            <div class="icon">💬</div>
+            <div>
+              <strong>WhatsApp</strong><br>
+              <a href="#" id="whatsappLink" target="_blank" style="color: var(--primary);">Chat with us now</a>
+            </div>
+          </div>
+          <div class="info-item">
+            <div class="icon">📍</div>
+            <div>
+              <strong>Location</strong><br>
+              <span>Sambalpur, Odisha, India</span>
+            </div>
+          </div>
         </div>
-      </section>
+        <div class="map-container">
+          <iframe src="https://www.google.com/maps/embed?pb=!1m18!1m12!1m3!1d3651.23456789!2d83.9!3d21.9!2m3!1f0!2f0!3f0!3m2!1i1024!2i768!4f13.1!3m3!1m2!1s0x0%3A0x0!2zTjCsMTInMDAuMCJOIDgzSxB1MC4wIkU!5e0!3m2!1sen!2sin!4v1234567890" width="100%" height="100%" style="border:0;" allowfullscreen="" loading="lazy"></iframe>
+        </div>
+      </div>
+    </section>
 
-    </div>
   </main>
 
   <!-- Footer -->
   <footer class="footer">
-    <div class="container">
-      <div class="footer-brand">📸 Bapi Digital</div>
-      <p>&copy; 2026 Bapi Digital. All rights reserved.</p>
+    <div class="footer-grid">
+      <div class="footer-col">
+        <h4>Bapi Digital</h4>
+        <p style="color: var(--text-muted); font-size: 0.9rem; margin-bottom: 20px;">Your premium destination for photography studio gear and aesthetic apparel.</p>
+        <div class="social-links" style="display:flex; gap:15px; font-size:1.5rem;">
+          <a href="#">📸</a> <a href="#">📘</a> <a href="#">🐦</a>
+        </div>
+      </div>
+      <div class="footer-col">
+        <h4>Quick Links</h4>
+        <ul class="footer-links">
+          <li><a href="index.html">Home</a></li>
+          <li><a href="about.html">About Us</a></li>
+          <li><a href="gallery.html">Gallery</a></li>
+          <li><a href="feedback.html">Feedback</a></li>
+        </ul>
+      </div>
+      <div class="footer-col">
+        <h4>Support</h4>
+        <ul class="footer-links">
+          <li><a href="#">Privacy Policy</a></li>
+          <li><a href="#">Terms of Service</a></li>
+          <li><a href="#">Shipping Policy</a></li>
+          <li><a href="#">Contact Support</a></li>
+        </ul>
+      </div>
+    </div>
+    <div class="footer-bottom">
+      &copy; 2026 Bapi Digital. All rights reserved. Designed for Excellence.
     </div>
   </footer>
 
