@@ -1,0 +1,70 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+  <meta charset="UTF-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1.0">
+  <title>About Us — Bapi Digital</title>
+  <link rel="stylesheet" href="css/style.css">
+  <link rel="icon" href="data:image/svg+xml,<svg xmlns='http://www.w3.org/2000/svg' viewBox='0 0 100 100'><text y='.9em' font-size='90'>📸</text></svg>">
+</head>
+<body>
+  <nav class="navbar" id="navbar">
+    <a href="index.html" class="nav-brand">
+      <div class="brand-icon">📸</div>
+      Bapi Digital
+    </a>
+    <ul class="nav-links" id="navLinks">
+      <li><a href="index.html">Home</a></li>
+      <li><a href="about.html" class="active">About Us</a></li>
+      <li><a href="index.html#productGrid">Catalogue</a></li>
+      <li><a href="gallery.html">Gallery</a></li>
+      <li><a href="feedback.html">Feedback Form</a></li>
+      <li><a href="admin/login.html">Admin</a></li>
+    </ul>
+    <button class="nav-toggle" id="navToggle" aria-label="Toggle menu">
+      <span></span><span></span><span></span>
+    </button>
+  </nav>
+
+  <main class="main-content">
+    <div class="container">
+      <section class="about-section animate-in" style="text-align: center; padding: var(--space-3xl) 0;">
+        <h1 class="section-title" style="font-size: 3rem; margin-bottom: var(--space-lg);">About <span class="highlight">Bapi Digital</span></h1>
+        <p style="max-width: 800px; margin: 0 auto var(--space-xl); color: var(--text-secondary); font-size: 1.2rem;">
+          We are a premium studio supply provider dedicated to empowering photographers and artists with the highest quality tools, professional apparel, and stunning prints. Our mission is to combine creativity with technology to help you capture and present your work perfectly.
+        </p>
+        <div class="about-grid" style="display: grid; grid-template-columns: repeat(auto-fit, minmax(250px, 1fr)); gap: var(--space-xl); margin-top: var(--space-3xl);">
+          <div class="about-card" style="padding: var(--space-lg); background: var(--bg-card); border-radius: var(--radius-lg); border: 1px solid var(--border-light); box-shadow: var(--shadow-sm);">
+            <div style="font-size: 2.5rem; margin-bottom: var(--space-md);">🏆</div>
+            <h3>Quality First</h3>
+            <p>We source only the best materials for our prints and equipment.</p>
+          </div>
+          <div class="about-card" style="padding: var(--space-lg); background: var(--bg-card); border-radius: var(--radius-lg); border: 1px solid var(--border-light); box-shadow: var(--shadow-sm);">
+            <div style="font-size: 2.5rem; margin-bottom: var(--space-md);">🎨</div>
+            <h3>Creative Spirit</h3>
+            <p>Our products are designed by artists, for artists.</p>
+          </div>
+          <div class="about-card" style="padding: var(--space-lg); background: var(--bg-card); border-radius: var(--radius-lg); border: 1px solid var(--border-light); box-shadow: var(--shadow-sm);">
+            <div style="font-size: 2.5rem; margin-bottom: var(--space-md);">🤝</div>
+            <h3>Customer Support</h3>
+            <p>We are here to support your creative journey every step of the way.</p>
+          </div>
+        </div>
+      </section>
+    </div>
+  </main>
+
+  <footer class="footer">
+    <div class="container">
+      <div class="footer-brand">📸 Bapi Digital</div>
+      <p>&copy; 2026 Bapi Digital. All rights reserved.</p>
+    </div>
+  </footer>
+
+  <script>
+    document.getElementById('navToggle').addEventListener('click', () => {
+      document.getElementById('navLinks').classList.toggle('open');
+    });
+  </script>
+</body>
+</html>

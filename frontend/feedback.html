@@ -1,0 +1,127 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+  <meta charset="UTF-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1.0">
+  <title>Feedback — Bapi Digital</title>
+  <link rel="stylesheet" href="css/style.css">
+  <link rel="icon" href="data:image/svg+xml,<svg xmlns='http://www.w3.org/2000/svg' viewBox='0 0 100 100'><text y='.9em' font-size='90'>📸</text></svg>">
+</head>
+<body>
+  <nav class="navbar" id="navbar">
+    <a href="index.html" class="nav-brand">
+      <div class="brand-icon">📸</div>
+      Bapi Digital
+    </a>
+    <ul class="nav-links" id="navLinks">
+      <li><a href="index.html">Home</a></li>
+      <li><a href="about.html">About Us</a></li>
+      <li><a href="index.html">Catalogue</a></li>
+      <li><a href="gallery.html">Gallery</a></li>
+      <li><a href="feedback.html" class="active">Feedback Form</a></li>
+      <li><a href="admin/login.html">Admin</a></li>
+    </ul>
+    <button class="nav-toggle" id="navToggle" aria-label="Toggle menu">
+      <span></span><span></span><span></span>
+    </button>
+  </nav>
+
+  <main class="main-content">
+    <div class="container">
+      <section class="feedback-section animate-in">
+        <div class="feedback-header">
+          <p class="feedback-subtitle">Send us Your Valuable feedback</p>
+          <h1>Tell us what you think!</h1>
+          <p class="feedback-intro">Your insights help us improve our studio services and product quality. We'd love to hear from you!</p>
+        </div>
+
+        <div class="feedback-card">
+          <form id="feedbackForm">
+            <div class="feedback-grid">
+              <div class="feedback-field">
+                <div class="field-icon">🏢</div>
+                <input type="text" id="businessName" placeholder="Business Name*" required>
+              </div>
+              <div class="feedback-field">
+                <div class="field-icon">👤</div>
+                <input type="text" id="personName" placeholder="Person Name">
+              </div>
+            </div>
+
+            <div class="feedback-grid">
+              <div class="feedback-field">
+                <div class="field-icon">📞</div>
+                <input type="tel" id="contactNumber" placeholder="Contact Number*" required>
+              </div>
+              <div class="feedback-field">
+                <div class="field-icon">💼</div>
+                <select id="businessType" class="form-control">
+                  <option value="" disabled selected>Business Type</option>
+                  <option value="Studio">Photo Studio</option>
+                  <option value="Retail">Retail Shop</option>
+                  <option value="Freelance">Freelance Photographer</option>
+                  <option value="Other">Other</option>
+                </select>
+              </div>
+            </div>
+
+            <div class="feedback-field full-width">
+              <div class="field-icon">📍</div>
+              <input type="text" id="cityName" placeholder="City Name">
+            </div>
+            
+            <div class="feedback-field full-width">
+              <div class="field-icon">💬</div>
+              <textarea id="message" placeholder="Your message..." rows="5"></textarea>
+            </div>
+            
+            <button type="submit" class="btn btn-primary btn-block btn-lg submit-btn">
+              <span>Submit Feedback</span>
+              <span class="btn-icon">🚀</span>
+            </button>
+          </form>
+        </div>
+      </section>
+    </div>
+  </main>
+
+  <footer class="footer">
+    <div class="container">
+      <div class="footer-brand">📸 Bapi Digital</div>
+      <p>&copy; 2026 Bapi Digital. All rights reserved.</p>
+    </div>
+  </footer>
+
+  <script src="js/api.js"></script>
+  <script>
+    document.getElementById('navToggle').addEventListener('click', () => {
+      document.getElementById('navLinks').classList.toggle('open');
+    });
+
+    document.getElementById('feedbackForm').addEventListener('submit', async (e) => {
+      e.preventDefault();
+      const formData = {
+        businessName: document.getElementById('businessName').value,
+        personName: document.getElementById('personName').value,
+        contactNumber: document.getElementById('contactNumber').value,
+        businessType: document.getElementById('businessType').value,
+        cityName: document.getElementById('cityName').value,
+        message: document.getElementById('message').value,
+      };
+      
+      // For now, send to WhatsApp as the backend doesn't have a feedback endpoint
+      const waNumber = await API.getWhatsAppNumber();
+      const message = `*New Feedback Received*\n\n` +
+                      `🏢 *Business:* ${formData.businessName}\n` +
+                      `👤 *Person:* ${formData.personName || 'N/A'}\n` +
+                      `📞 *Contact:* ${formData.contactNumber}\n` +
+                      `💼 *Type:* ${formData.businessType || 'N/A'}\n` +
+                      `📍 *City:* ${formData.cityName || 'N/A'}\n\n` +
+                      `💬 *Message:* ${formData.message || 'No message'}`;
+      
+      window.open(`https://wa.me/${waNumber}?text=${encodeURIComponent(message)}`, '_blank');
+      showToast('Feedback sent via WhatsApp!');
+    });
+  </script>
+</body>
+</html>

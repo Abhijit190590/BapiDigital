@@ -1,0 +1,61 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+  <meta charset="UTF-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1.0">
+  <title>Gallery — Bapi Digital</title>
+  <link rel="stylesheet" href="css/style.css">
+  <link rel="icon" href="data:image/svg+xml,<svg xmlns='http://www.w3.org/2000/svg' viewBox='0 0 100 100'><text y='.9em' font-size='90'>📸</text></svg>">
+</head>
+<body>
+  <nav class="navbar" id="navbar">
+    <a href="index.html" class="nav-brand">
+      <div class="brand-icon">📸</div>
+      Bapi Digital
+    </a>
+    <ul class="nav-links" id="navLinks">
+      <li><a href="index.html">Home</a></li>
+      <li><a href="about.html">About Us</a></li>
+      <li><a href="index.html#productGrid">Catalogue</a></li>
+      <li><a href="gallery.html" class="active">Gallery</a></li>
+      <li><a href="feedback.html">Feedback Form</a></li>
+      <li><a href="admin/login.html">Admin</a></li>
+    </ul>
+    <button class="nav-toggle" id="navToggle" aria-label="Toggle menu">
+      <span></span><span></span><span></span>
+    </button>
+  </nav>
+
+  <main class="main-content">
+    <div class="container">
+      <section class="gallery-section animate-in" style="text-align: center; padding: var(--space-3xl) 0;">
+        <h1 class="section-title" style="font-size: 3rem; margin-bottom: var(--space-lg);">Our <span class="highlight">Gallery</span></h1>
+        <p style="max-width: 600px; margin: 0 auto var(--space-xl); color: var(--text-secondary);">A showcase of our best works and premium studio products in action.</p>
+        
+        <div class="gallery-grid" style="display: grid; grid-template-columns: repeat(auto-fill, minmax(300px, 1fr)); gap: var(--space-lg);">
+          <!-- Placeholders for gallery images -->
+          <div class="gallery-item" style="aspect-ratio: 1; background: var(--surface); border-radius: var(--radius-lg); display: flex; align-items: center; justify-content: center; font-size: 3rem; color: var(--text-muted); border: 1px solid var(--border-light);">🖼️</div>
+          <div class="gallery-item" style="aspect-ratio: 1; background: var(--surface); border-radius: var(--radius-lg); display: flex; align-items: center; justify-content: center; font-size: 3rem; color: var(--text-muted); border: 1px solid var(--border-light);">🖼️</div>
+          <div class="gallery-item" style="aspect-ratio: 1; background: var(--surface); border-radius: var(--radius-lg); display: flex; align-items: center; justify-content: center; font-size: 3rem; color: var(--text-muted); border: 1px solid var(--border-light);">🖼️</div>
+          <div class="gallery-item" style="aspect-ratio: 1; background: var(--surface); border-radius: var(--radius-lg); display: flex; align-items: center; justify-content: center; font-size: 3rem; color: var(--text-muted); border: 1px solid var(--border-light);">🖼️</div>
+          <div class="gallery-item" style="aspect-ratio: 1; background: var(--surface); border-radius: var(--radius-lg); display: flex; align-items: center; justify-content: center; font-size: 3rem; color: var(--text-muted); border: 1px solid var(--border-light);">🖼️</div>
+          <div class="gallery-item" style="aspect-ratio: 1; background: var(--surface); border-radius: var(--radius-lg); display: flex; align-items: center; justify-content: center; font-size: 3rem; color: var(--text-muted); border: 1px solid var(--border-light);">🖼️</div>
+        </div>
+      </section>
+    </div>
+  </main>
+
+  <footer class="footer">
+    <div class="container">
+      <div class="footer-brand">📸 Bapi Digital</div>
+      <p>&copy; 2026 Bapi Digital. All rights reserved.</p>
+    </div>
+    </footer>
+
+  <script>
+    document.getElementById('navToggle').addEventListener('click', () => {
+      document.getElementById('navLinks').classList.toggle('open');
+    });
+  </script>
+</body>
+</html>
