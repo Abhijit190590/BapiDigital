@@ -103,6 +103,18 @@ const API = (() => {
     });
   }
 
+  // Gallery
+  async function getGallery() { return request('/gallery'); }
+  async function uploadGalleryImage(image) {
+    return request('/gallery/admin/upload', {
+      method: 'POST',
+      body: JSON.stringify(image),
+    });
+  }
+  async function deleteGalleryImage(id) {
+    return request(`/gallery/admin/${id}`, { method: 'DELETE' });
+  }
+
   // Admin Stats
   async function getStats() { return request('/admin/stats'); }
 
@@ -111,7 +123,8 @@ const API = (() => {
     getProducts, getProduct, searchProducts, getProductsByCategory, getRecentProducts,
     createProduct, updateProduct, deleteProduct,
     getWhatsAppNumber, updateWhatsAppNumber,
-    getStats,
+    getStats, getSiteSettings, updateSiteSettings,
+    getGallery, uploadGalleryImage, deleteGalleryImage,
   };
 })();
 

@@ -39,6 +39,7 @@
     if (section === 'dashboard') loadDashboard();
     if (section === 'whatsapp') loadWhatsApp();
     if (section === 'customize') loadSettings();
+    if (section === 'gallery') loadGallery();
     if (section === 'addProduct') {
       document.getElementById('productFormTitle').innerHTML = '➕ <span class="highlight">Add Product</span>';
     }
@@ -97,11 +98,8 @@
       
       // Colors
       document.getElementById('colorPrimary').value = settings.colorPrimary || '#6366f1';
-      document.getElementById('textColorPrimary').value = settings.colorPrimary || '#6366f1';
       document.getElementById('colorBgPrimary').value = settings.colorBgPrimary || '#fcfcfd';
-      document.getElementById('textBgPrimary').value = settings.colorBgPrimary || '#fcfcfd';
       document.getElementById('colorTextPrimary').value = settings.colorTextPrimary || '#1e293b';
-      document.getElementById('textTextPrimary').value = settings.colorTextPrimary || '#1e293b';
       
       // Content
       document.getElementById('siteHeroTitle').value = settings.heroTitle || '';
@@ -111,7 +109,53 @@
     }
   }
 
+  async function loadGallery() {
+    const grid = document.getElementById('adminGalleryGrid');
+    grid.innerHTML = 'Loading gallery...';
+    try {
+      const images = await API.getGallery();
+      grid.innerHTML = images.map(img => `
+        <div class="product-card" style="padding: 10px;">
+          <img src="${img.imageUrl}" style="width:100%; aspect-ratio:1; object-fit:cover; border-radius:var(--radius-md);">
+          <div style="display:flex; justify-content:space-between; align-items:center; margin-top:10px;">
+            <span style="font-size:0.8rem; overflow:hidden; text-overflow:ellipsis; white-space:nowrap;">${img.caption || 'No caption'}</span>
+            <button class="btn btn-danger btn-sm" onclick="deleteGalleryImage('${img.id}')">🗑️</button>
+          </div>
+        </div>
+      `).join('');
+    } catch (err) {
+      grid.innerHTML = 'Error loading gallery: ' + err.message;
+    }
+  }
+
+  window.uploadGalleryImage = async function(event) {
+    const file = event.target.files[0];
+    if (!file) return;
+    
+    try {
+      const base64 = await fileToBase64(file);
+      await API.uploadGalleryImage({ imageUrl: base64, caption: 'Gallery Image' });
+      showToast('Image uploaded to gallery!');
+      loadGallery();
+    } catch (err) {
+      showToast(err.message, 'error');
+    }
+  };
+
+  window.deleteGalleryImage = async function(id) {
+    if (!confirm('Delete this image from gallery?')) return;
+    try {
+      await API.deleteGalleryImage(id);
+      showToast('Image deleted!');
+      loadGallery();
+    } catch (err) {
+      showToast(err.message, 'error');
+    }
+  };
+
   // Save WhatsApp Number
+
+
   window.saveWhatsApp = async function () {
     const number = document.getElementById('waNumber').value.trim();
     if (!number) { showToast('Please enter a phone number', 'error'); return; }
@@ -125,9 +169,9 @@
 
   window.saveSettings = async function () {
     const settings = {
-      colorPrimary: document.getElementById('textColorPrimary').value,
-      colorBgPrimary: document.getElementById('textBgPrimary').value,
-      colorTextPrimary: document.getElementById('textTextPrimary').value,
+      colorPrimary: document.getElementById('colorPrimary').value,
+      colorBgPrimary: document.getElementById('colorBgPrimary').value,
+      colorTextPrimary: document.getElementById('colorTextPrimary').value,
       heroTitle: document.getElementById('siteHeroTitle').value,
       heroDesc: document.getElementById('siteHeroDesc').value,
     };

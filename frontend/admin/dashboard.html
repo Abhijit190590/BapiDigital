@@ -22,6 +22,7 @@
         <a href="#" data-section="products"><span class="nav-icon">📦</span> Products</a>
         <a href="#" data-section="whatsapp"><span class="nav-icon">💬</span> WhatsApp Config</a>
         <a href="#" data-section="customize"><span class="nav-icon">🎨</span> Customize Site</a>
+        <a href="#" data-section="gallery"><span class="nav-icon">🖼️</span> Gallery</a>
         <a href="#" data-section="addProduct"><span class="nav-icon">➕</span> Add Product</a>
       </nav>
       <div class="sidebar-footer">
@@ -81,6 +82,22 @@
         </div>
       </div>
 
+      <!-- Gallery Section -->
+      <div class="admin-section" id="sec-gallery" style="display:none;">
+        <div class="section-header">
+          <h2 class="section-title">🖼️ <span class="highlight">Gallery Management</span></h2>
+          <button class="btn btn-primary btn-sm" onclick="document.getElementById('galleryUploadArea').click()">➕ Upload Photo</button>
+        </div>
+        
+        <div id="galleryUploadArea" style="display:none;">
+          <input type="file" accept="image/*" onchange="uploadGalleryImage(event)">
+        </div>
+
+        <div class="product-grid" id="adminGalleryGrid" style="grid-template-columns: repeat(auto-fill, minmax(200px, 1fr));">
+          <!-- Gallery images will be loaded here -->
+        </div>
+      </div>
+
       <!-- Customize Site Section -->
       <div class="admin-section" id="sec-customize" style="display:none;">
         <h2 class="section-title" style="margin-bottom: var(--space-xl);">🎨 <span class="highlight">Customize Site</span></h2>
@@ -88,26 +105,30 @@
           
           <!-- Colors -->
           <div class="custom-card" style="background: var(--bg-secondary); padding: var(--space-lg); border-radius: var(--radius-lg); border: 1px solid var(--border);">
-            <h3 style="margin-bottom: var(--space-md);">🎨 Theme Colors</h3>
+            <h3 style="margin-bottom: var(--space-md);">🎨 Theme Presets</h3>
             <div class="form-group">
-              <label>Primary Color</label>
-              <div style="display: flex; gap: 10px;">
-                <input type="color" id="colorPrimary" style="width: 50px; height: 40px; border: none; cursor: pointer;">
-                <input type="text" id="textColorPrimary" class="form-control" placeholder="#6366f1">
-              </div>
+              <label for="themePreset">Select a Theme</label>
+              <select id="themePreset" class="form-control" onchange="applyThemePreset(this.value)">
+                <option value="modern-indigo">Modern Indigo (Default)</option>
+                <option value="sleek-dark">Sleek Dark</option>
+                <option value="minimal-white">Minimal White</option>
+                <option value="ocean-blue">Ocean Blue</option>
+                <option value="sunset-orange">Sunset Orange</option>
+              </select>
             </div>
-            <div class="form-group">
-              <label>Background Color</label>
-              <div style="display: flex; gap: 10px;">
-                <input type="color" id="colorBgPrimary" style="width: 50px; height: 40px; border: none; cursor: pointer;">
-                <input type="text" id="textBgPrimary" class="form-control" placeholder="#fcfcfd">
+            <div style="margin-top: var(--space-md); padding-top: var(--space-md); border-top: 1px solid var(--border);">
+              <p style="font-size: 0.8rem; color: var(--text-muted); margin-bottom: var(--space-sm);">Current Custom Colors:</p>
+              <div class="form-group">
+                <label>Primary Color</label>
+                <input type="color" id="colorPrimary" style="width: 100%; height: 40px; cursor: pointer;">
               </div>
-            </div>
-            <div class="form-group">
-              <label>Text Color</label>
-              <div style="display: flex; gap: 10px;">
-                <input type="color" id="colorTextPrimary" style="width: 50px; height: 40px; border: none; cursor: pointer;">
-                <input type="text" id="textTextPrimary" class="form-control" placeholder="#1e293b">
+              <div class="form-group">
+                <label>Background Color</label>
+                <input type="color" id="colorBgPrimary" style="width: 100%; height: 40px; cursor: pointer;">
+              </div>
+              <div class="form-group">
+                <label>Text Color</label>
+                <input type="color" id="colorTextPrimary" style="width: 100%; height: 40px; cursor: pointer;">
               </div>
             </div>
           </div>

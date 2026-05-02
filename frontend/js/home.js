@@ -89,7 +89,7 @@
       clearTimeout(searchTimeout);
       searchTimeout = setTimeout(() => filterProducts(), 300);
     });
-
+ 
     // Category Filters
     filterTabs.addEventListener('click', (e) => {
       const tab = e.target.closest('.filter-tab');
@@ -99,12 +99,30 @@
       currentCategory = tab.dataset.category;
       filterProducts();
     });
-
+ 
     // Mobile Nav Toggle
-    document.getElementById('navToggle').addEventListener('click', () => {
-      document.getElementById('navLinks').classList.toggle('open');
+    const navToggle = document.getElementById('navToggle');
+    const navLinks = document.getElementById('navLinks');
+    const navOverlay = document.getElementById('navOverlay');
+    
+    navToggle.addEventListener('click', () => {
+      navLinks.classList.toggle('open');
+      navOverlay.classList.toggle('active');
+    });
+    
+    navOverlay.addEventListener('click', () => {
+      navLinks.classList.remove('open');
+      navOverlay.classList.remove('active');
+    });
+
+    document.querySelectorAll('.nav-links a').forEach(link => {
+      link.addEventListener('click', () => {
+        navLinks.classList.remove('open');
+        navOverlay.classList.remove('active');
+      });
     });
   }
+
 
   function filterProducts() {
     const query = searchInput.value.trim().toLowerCase();
