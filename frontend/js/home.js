@@ -20,22 +20,34 @@
   async function init() {
     productGrid.innerHTML = createSkeletonCards(8);
     setupEventListeners();
+    
     try {
-      const [products, waNumber, settings] = await Promise.all([
+      const waNumber = await API.getWhatsAppNumber();
+      whatsappNumber = waNumber;
+      
+      // Update Contact Us button immediately after getting number
+      const contactBtn = document.getElementById('contactUsBtn');
+      if (contactBtn) {
+        const finalNumber = waNumber || '910000000000'; // Fallback number
+        contactBtn.href = `https://wa.me/${finalNumber}?text=${encodeURIComponent('Hello, I have a query regarding your products.')}`;
+        contactBtn.target = '_blank';
+      }
+    } catch (err) {
+      console.error('Error loading WhatsApp number:', err);
+      // Fallback for button if API fails
+      const contactBtn = document.getElementById('contactUsBtn');
+      if (contactBtn) {
+        contactBtn.href = `https://wa.me/910000000000?text=${encodeURIComponent('Hello!')}`;
+        contactBtn.target = '_blank';
+      }
+    }
+
+    try {
+      const [products, settings] = await Promise.all([
         API.getProducts(),
-        API.getWhatsAppNumber(),
         API.getSiteSettings(),
       ]);
       allProducts = products;
-      whatsappNumber = waNumber;
-      
-      // Update Contact Us button
-      const contactBtn = document.getElementById('contactUsBtn');
-      if (contactBtn) {
-        contactBtn.href = `https://wa.me/${whatsappNumber}?text=${encodeURIComponent('Hello, I have a query regarding your products.')}`;
-        contactBtn.target = '_blank';
-      }
-
       applySettings(settings);
       renderRecentProducts();
       renderProducts(allProducts);
@@ -46,6 +58,7 @@
       emptyState.querySelector('p').textContent = err.message;
     }
   }
+
 
   function applySettings(settings) {
     if (!settings) return;
