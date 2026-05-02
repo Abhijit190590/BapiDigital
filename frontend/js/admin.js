@@ -62,7 +62,10 @@
     const tbody = document.getElementById('productsTableBody');
     tbody.innerHTML = '<tr><td colspan="5" style="text-align:center;padding:40px;">Loading...</td></tr>';
     try {
-      allProducts = await API.getProducts();
+      const response = await API.getProducts();
+      // Handle paginated response
+      allProducts = response.content || response;
+      
       if (allProducts.length === 0) {
         tbody.innerHTML = '<tr><td colspan="5" style="text-align:center;padding:40px;color:var(--text-muted);">No products yet. Add your first product!</td></tr>';
         return;
@@ -216,6 +219,7 @@
     }
   }
 
+  window.saveWhatsApp = async function () {
     const number = document.getElementById('waNumber').value.trim();
     if (!number) { showToast('Please enter a phone number', 'error'); return; }
     try {
@@ -225,6 +229,7 @@
       showToast(err.message, 'error');
     }
   };
+
 
   window.saveSettings = async function () {
     const settings = {
