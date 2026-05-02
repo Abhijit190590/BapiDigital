@@ -58,16 +58,22 @@
     }
   }
 
-  async function loadProducts() {
+  async function loadProducts(query = '') {
     const tbody = document.getElementById('productsTableBody');
     if (!tbody) return;
     tbody.innerHTML = '<tr><td colspan="5" style="text-align:center;padding:40px;">Loading...</td></tr>';
     try {
-      const response = await API.getProducts();
-      allProducts = response.content || response;
+      let products;
+      if (query) {
+        products = await API.searchProducts(query);
+      } else {
+        const response = await API.getProducts();
+        products = response.content || response;
+      }
       
+      allProducts = products;
       if (!allProducts || allProducts.length === 0) {
-        tbody.innerHTML = '<tr><td colspan="5" style="text-align:center;padding:40px;color:var(--text-muted);">No products yet. Add your first product!</td></tr>';
+        tbody.innerHTML = '<tr><td colspan="5" style="text-align:center;padding:40px;color:var(--text-muted);">No products found.</td></tr>';
         return;
       }
       tbody.innerHTML = allProducts.map(p => {
@@ -88,6 +94,11 @@
       tbody.innerHTML = `<tr><td colspan="5" style="text-align:center;padding:40px;color:var(--danger);">${err.message}</td></tr>`;
     }
   }
+
+  window.adminSearchProducts = async function() {
+    const query = document.getElementById('adminProductSearch').value.trim();
+    await loadProducts(query);
+  };
 
   async function loadWhatsApp() {
     try {
@@ -220,6 +231,7 @@
   }
 
   window.saveWhatsApp = async function () {
+  window.saveWhatsApp = async function () {
     const number = document.getElementById('waNumber').value.trim();
     if (!number) { showToast('Please enter a phone number', 'error'); return; }
     try {
@@ -229,6 +241,7 @@
       showToast(err.message, 'error');
     }
   };
+
 
 
   window.saveSettings = async function () {
@@ -282,6 +295,7 @@
 
   // Save Product
   window.saveProduct = async function () {
+    const btn = event?.target?.closest('button') || document.querySelector('#sec-addProduct .btn-primary');
     const id = document.getElementById('editProductId').value;
     const name = document.getElementById('prodName').value.trim();
     const price = parseFloat(document.getElementById('prodPrice').value);
@@ -295,11 +309,16 @@
     if (uploadedImages.length > 0) product.images = uploadedImages;
 
     try {
+      if (btn) btn.classList.add('btn-loading');
       if (id) {
         await API.updateProduct(id, product);
         showToast('Product updated successfully!');
       } else {
-        if (uploadedImages.length === 0) { showToast('Please upload at least one image', 'error'); return; }
+        if (uploadedImages.length === 0) { 
+          showToast('Please upload at least one image', 'error'); 
+          if (btn) btn.classList.remove('btn-loading');
+          return; 
+        }
         await API.createProduct(product);
         showToast('Product created successfully!');
       }
@@ -307,8 +326,11 @@
       showSection('products');
     } catch (err) {
       showToast(err.message, 'error');
+    } finally {
+      if (btn) btn.classList.remove('btn-loading');
     }
   };
+
 
   // Edit Product
     window.editProduct = async function (id) {

@@ -57,7 +57,13 @@
       <div class="admin-section" id="sec-products" style="display:none;">
         <div class="section-header">
           <h2 class="section-title">📦 <span class="highlight">All Products</span></h2>
-          <button class="btn btn-primary btn-sm" onclick="showSection('addProduct')">➕ Add New</button>
+          <div style="display:flex; gap:var(--space-md); align-items:center;">
+            <div class="search-box" style="min-width: 200px;">
+              <span class="search-icon">🔍</span>
+              <input type="text" id="adminProductSearch" placeholder="Search products..." oninput="adminSearchProducts()">
+            </div>
+            <button class="btn btn-primary btn-sm" onclick="showSection('addProduct')">➕ Add New</button>
+          </div>
         </div>
         <div class="admin-table-wrapper">
           <table class="admin-table">
