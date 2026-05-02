@@ -2,6 +2,9 @@ package com.bapidigital.service;
 
 import com.bapidigital.model.Product;
 import com.bapidigital.repository.ProductRepository;
+import org.springframework.data.domain.Page;
+import org.springframework.data.domain.PageRequest;
+import org.springframework.data.domain.Pageable;
 import org.springframework.stereotype.Service;
 import java.time.LocalDateTime;
 import java.util.List;
@@ -16,8 +19,9 @@ public class ProductService {
         this.productRepository = productRepository;
     }
 
-    public List<Product> getAllProducts() {
-        return productRepository.findAllByOrderByCreatedAtDesc();
+    public Page<Product> getAllProducts(int page, int size) {
+        Pageable pageable = PageRequest.of(page, size);
+        return productRepository.findAllByOrderByCreatedAtDesc(pageable);
     }
 
     public Optional<Product> getProductById(String id) {
@@ -33,17 +37,18 @@ public class ProductService {
     }
 
     public List<Product> getRecentProducts() {
-        List<Product> all = productRepository.findAllByOrderByCreatedAtDesc();
-        return all.size() > 10 ? all.subList(0, 10) : all;
+        return productRepository.findAllByOrderByCreatedAtDesc(PageRequest.of(0, 10)).getContent();
     }
 
     public Product createProduct(Product product) {
+        validateProduct(product);
         product.setCreatedAt(LocalDateTime.now());
         product.setUpdatedAt(LocalDateTime.now());
         return productRepository.save(product);
     }
 
     public Product updateProduct(String id, Product updatedProduct) {
+        validateProduct(updatedProduct);
         return productRepository.findById(id).map(existing -> {
             existing.setName(updatedProduct.getName());
             existing.setPrice(updatedProduct.getPrice());
@@ -63,5 +68,17 @@ public class ProductService {
 
     public long getProductCount() {
         return productRepository.count();
+    }
+
+    private void validateProduct(Product product) {
+        if (product.getName() == null || product.getName().isBlank()) {
+            throw new RuntimeException("Product name is required");
+        }
+        if (product.getPrice() == null || product.getPrice() <= 0) {
+            throw new RuntimeException("A valid positive price is required");
+        }
+        if (product.getCategory() == null || product.getCategory().isBlank()) {
+            throw new RuntimeException("Product category is required");
+        }
     }
 }

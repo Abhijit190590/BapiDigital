@@ -125,13 +125,66 @@
   }
 
 
-  function filterProducts() {
+  async function filterProducts() {
     const query = searchInput.value.trim().toLowerCase();
-    let filtered = allProducts;
-
-    if (currentCategory !== 'ALL') {
-      filtered = filtered.filter(p => p.category === currentCategory);
+    
+    try {
+      let products;
+      if (query) {
+        products = await API.searchProducts(query);
+      } else if (currentCategory !== 'ALL') {
+        products = await API.getProductsByCategory(currentCategory);
+      } else {
+        // Since backend now uses pagination, we get the first page
+        const pageData = await API.getProducts();
+        products = pageData.content || pageData;
+      }
+      renderProducts(products);
+    } catch (err) {
+      showToast('Error filtering products: ' + err.message, 'error');
     }
+  }
+
+  function setupEventListeners() {
+    // Search
+    searchInput.addEventListener('input', (e) => {
+      clearTimeout(searchTimeout);
+      searchTimeout = setTimeout(() => filterProducts(), 300);
+    });
+    
+    // Category Filters
+    filterTabs.addEventListener('click', (e) => {
+      const tab = e.target.closest('.filter-tab');
+      if (!tab) return;
+      filterTabs.querySelectorAll('.filter-tab').forEach(t => t.classList.remove('active'));
+      tab.classList.add('active');
+      currentCategory = tab.dataset.category;
+      filterProducts();
+    });
+    
+    // Mobile Nav Toggle
+    const navToggle = document.getElementById('navToggle');
+    const navLinks = document.getElementById('navLinks');
+    const navOverlay = document.getElementById('navOverlay');
+    
+    navToggle.addEventListener('click', () => {
+      navLinks.classList.toggle('open');
+      navOverlay.classList.toggle('active');
+    });
+    
+    navOverlay.addEventListener('click', () => {
+      navLinks.classList.remove('open');
+      navOverlay.classList.remove('active');
+    });
+    
+    document.querySelectorAll('.nav-links a').forEach(link => {
+      link.addEventListener('click', () => {
+        navLinks.classList.remove('open');
+        navOverlay.classList.remove('active');
+      });
+    });
+  }
+
 
     if (query) {
       filtered = filtered.filter(p =>
