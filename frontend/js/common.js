@@ -142,10 +142,11 @@
 
       const root = document.documentElement;
       
-      // Apply Colors
-      if (settings.colorPrimary) root.style.setProperty('--primary', settings.colorPrimary);
-      if (settings.colorBgPrimary) root.style.setProperty('--bg-main', settings.colorBgPrimary);
-      if (settings.colorTextPrimary) root.style.setProperty('--text-main', settings.colorTextPrimary);
+       // Apply Colors
+       if (settings.colorPrimary) root.style.setProperty('--dynamic-primary', settings.colorPrimary);
+       if (settings.colorBgPrimary) root.style.setProperty('--dynamic-bg-main', settings.colorBgPrimary);
+       if (settings.colorTextPrimary) root.style.setProperty('--dynamic-text-main', settings.colorTextPrimary);
+
       
       // Apply Hero Content (only if it exists on the current page)
       if (settings.heroTitle) {

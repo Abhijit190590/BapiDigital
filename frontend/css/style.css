@@ -7,7 +7,7 @@
 
 :root {
   /* Soft Pastel Palette */
-  --primary: #818cf8;
+  --primary: var(--dynamic-primary, #818cf8);
   --primary-hover: #6366f1;
   --primary-soft: #e0e7ff;
   --secondary: #a7f3d0;
@@ -18,10 +18,10 @@
   --success: #86efac;
   
   /* Neutrals */
-  --bg-main: #fdfbfb;
+  --bg-main: var(--dynamic-bg-main, #fdfbfb);
   --bg-card: #ffffff;
   --bg-nav: rgba(255, 255, 255, 0.8);
-  --text-main: #334155;
+  --text-main: var(--dynamic-text-main, #334155);
   --text-muted: #64748b;
   --border-color: #f1f5f9;
   
