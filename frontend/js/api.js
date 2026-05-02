@@ -36,10 +36,15 @@ const API = (() => {
         }
         throw new Error('Unauthorized');
       }
-      const data = await res.json();
-      if (!res.ok) throw new Error(data.error || 'Request failed');
-      return data;
+      
+      if (!res.ok) {
+        const errorData = await res.json().catch(() => ({}));
+        throw new Error(errorData.error || `Request failed with status ${res.status}`);
+      }
+      
+      return await res.json();
     } catch (err) {
+
       if (err.message === 'Failed to fetch') {
         throw new Error('Cannot connect to server. Please ensure the backend is running.');
       }
