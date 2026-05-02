@@ -21,6 +21,7 @@
         <a href="#" class="active" data-section="dashboard"><span class="nav-icon">📊</span> Dashboard</a>
         <a href="#" data-section="products"><span class="nav-icon">📦</span> Products</a>
         <a href="#" data-section="whatsapp"><span class="nav-icon">💬</span> WhatsApp Config</a>
+        <a href="#" data-section="customize"><span class="nav-icon">🎨</span> Customize Site</a>
         <a href="#" data-section="addProduct"><span class="nav-icon">➕</span> Add Product</a>
       </nav>
       <div class="sidebar-footer">
@@ -77,6 +78,55 @@
             <input type="text" id="waNumber" class="form-control" placeholder="e.g. 919876543210">
           </div>
           <button class="btn btn-whatsapp" onclick="saveWhatsApp()">💾 Save Number</button>
+        </div>
+      </div>
+
+      <!-- Customize Site Section -->
+      <div class="admin-section" id="sec-customize" style="display:none;">
+        <h2 class="section-title" style="margin-bottom: var(--space-xl);">🎨 <span class="highlight">Customize Site</span></h2>
+        <div class="customization-grid" style="display: grid; grid-template-columns: repeat(auto-fit, minmax(300px, 1fr)); gap: var(--space-xl);">
+          
+          <!-- Colors -->
+          <div class="custom-card" style="background: var(--bg-secondary); padding: var(--space-lg); border-radius: var(--radius-lg); border: 1px solid var(--border);">
+            <h3 style="margin-bottom: var(--space-md);">🎨 Theme Colors</h3>
+            <div class="form-group">
+              <label>Primary Color</label>
+              <div style="display: flex; gap: 10px;">
+                <input type="color" id="colorPrimary" style="width: 50px; height: 40px; border: none; cursor: pointer;">
+                <input type="text" id="textColorPrimary" class="form-control" placeholder="#6366f1">
+              </div>
+            </div>
+            <div class="form-group">
+              <label>Background Color</label>
+              <div style="display: flex; gap: 10px;">
+                <input type="color" id="colorBgPrimary" style="width: 50px; height: 40px; border: none; cursor: pointer;">
+                <input type="text" id="textBgPrimary" class="form-control" placeholder="#fcfcfd">
+              </div>
+            </div>
+            <div class="form-group">
+              <label>Text Color</label>
+              <div style="display: flex; gap: 10px;">
+                <input type="color" id="colorTextPrimary" style="width: 50px; height: 40px; border: none; cursor: pointer;">
+                <input type="text" id="textTextPrimary" class="form-control" placeholder="#1e293b">
+              </div>
+            </div>
+          </div>
+
+          <!-- Content -->
+          <div class="custom-card" style="background: var(--bg-secondary); padding: var(--space-lg); border-radius: var(--radius-lg); border: 1px solid var(--border);">
+            <h3 style="margin-bottom: var(--space-md);">📝 Page Content</h3>
+            <div class="form-group">
+              <label for="siteHeroTitle">Hero Title</label>
+              <input type="text" id="siteHeroTitle" class="form-control" placeholder="Welcome to Bapi Digital">
+            </div>
+            <div class="form-group">
+              <label for="siteHeroDesc">Hero Description</label>
+              <textarea id="siteHeroDesc" class="form-control" rows="3" placeholder="Your one-stop shop..."></textarea>
+            </div>
+          </div>
+        </div>
+        <div style="margin-top: var(--space-xl); text-align: right;">
+          <button class="btn btn-primary btn-lg" onclick="saveSettings()">💾 Save All Changes</button>
         </div>
       </div>
 

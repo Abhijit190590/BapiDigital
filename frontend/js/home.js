@@ -21,12 +21,14 @@
     productGrid.innerHTML = createSkeletonCards(8);
     setupEventListeners();
     try {
-      const [products, waNumber] = await Promise.all([
+      const [products, waNumber, settings] = await Promise.all([
         API.getProducts(),
         API.getWhatsAppNumber(),
+        API.getSiteSettings(),
       ]);
       allProducts = products;
       whatsappNumber = waNumber;
+      applySettings(settings);
       renderRecentProducts();
       renderProducts(allProducts);
     } catch (err) {
@@ -34,6 +36,29 @@
       emptyState.style.display = 'block';
       emptyState.querySelector('h3').textContent = 'Connection Error';
       emptyState.querySelector('p').textContent = err.message;
+    }
+  }
+
+  function applySettings(settings) {
+    if (!settings) return;
+    const root = document.documentElement;
+    
+    if (settings.colorPrimary) root.style.setProperty('--primary', settings.colorPrimary);
+    if (settings.colorBgPrimary) root.style.setProperty('--bg-primary', settings.colorBgPrimary);
+    if (settings.colorTextPrimary) root.style.setProperty('--text-primary', settings.colorTextPrimary);
+    
+    if (settings.heroTitle) {
+      const heroH1 = document.querySelector('.hero h1');
+      if (heroH1) {
+        // Preserve the gradient span if possible
+        const title = settings.heroTitle;
+        const parts = title.split('Bapi Digital');
+        heroH1.innerHTML = `${parts[0]}<span class="gradient-text">Bapi Digital</span>${parts[1] || ''}`;
+      }
+    }
+    if (settings.heroDesc) {
+      const heroP = document.querySelector('.hero p');
+      if (heroP) heroP.textContent = settings.heroDesc;
     }
   }
 

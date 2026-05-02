@@ -38,6 +38,7 @@
     if (section === 'products') loadProducts();
     if (section === 'dashboard') loadDashboard();
     if (section === 'whatsapp') loadWhatsApp();
+    if (section === 'customize') loadSettings();
     if (section === 'addProduct') {
       document.getElementById('productFormTitle').innerHTML = '➕ <span class="highlight">Add Product</span>';
     }
@@ -90,6 +91,26 @@
     }
   }
 
+  async function loadSettings() {
+    try {
+      const settings = await API.getSiteSettings();
+      
+      // Colors
+      document.getElementById('colorPrimary').value = settings.colorPrimary || '#6366f1';
+      document.getElementById('textColorPrimary').value = settings.colorPrimary || '#6366f1';
+      document.getElementById('colorBgPrimary').value = settings.colorBgPrimary || '#fcfcfd';
+      document.getElementById('textBgPrimary').value = settings.colorBgPrimary || '#fcfcfd';
+      document.getElementById('colorTextPrimary').value = settings.colorTextPrimary || '#1e293b';
+      document.getElementById('textTextPrimary').value = settings.colorTextPrimary || '#1e293b';
+      
+      // Content
+      document.getElementById('siteHeroTitle').value = settings.heroTitle || '';
+      document.getElementById('siteHeroDesc').value = settings.heroDesc || '';
+    } catch (err) {
+      showToast(err.message, 'error');
+    }
+  }
+
   // Save WhatsApp Number
   window.saveWhatsApp = async function () {
     const number = document.getElementById('waNumber').value.trim();
@@ -102,7 +123,25 @@
     }
   };
 
+  window.saveSettings = async function () {
+    const settings = {
+      colorPrimary: document.getElementById('textColorPrimary').value,
+      colorBgPrimary: document.getElementById('textBgPrimary').value,
+      colorTextPrimary: document.getElementById('textTextPrimary').value,
+      heroTitle: document.getElementById('siteHeroTitle').value,
+      heroDesc: document.getElementById('siteHeroDesc').value,
+    };
+
+    try {
+      await API.updateSiteSettings(settings);
+      showToast('Site settings updated successfully!');
+    } catch (err) {
+      showToast(err.message, 'error');
+    }
+  };
+
   // Image Upload
+
   window.handleImageUpload = async function (event) {
     const files = Array.from(event.target.files);
     if (uploadedImages.length + files.length > 5) {

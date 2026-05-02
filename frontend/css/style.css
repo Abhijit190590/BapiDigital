@@ -2,33 +2,33 @@
 @import url('https://fonts.googleapis.com/css2?family=Inter:wght@300;400;500;600;700;800&family=Outfit:wght@400;500;600;700;800&display=swap');
 
 :root {
-  /* Brand Colors */
-  --primary: #6C5CE7;
-  --primary-light: #A29BFE;
-  --primary-dark: #4B3FB5;
-  --accent: #00CEC9;
-  --accent-light: #81ECEC;
-  --accent-dark: #00A8A3;
+  /* Brand Colors - Refined */
+  --primary: #6366f1;
+  --primary-light: #818cf8;
+  --primary-dark: #4f46e5;
+  --accent: #06b6d4;
+  --accent-light: #22d3ee;
+  --accent-dark: #0891b2;
 
-  /* Neutral */
-  --bg-primary: #0F0F1A;
-  --bg-secondary: #1A1A2E;
-  --bg-card: #16213E;
-  --bg-card-hover: #1C2A4A;
-  --surface: #202040;
-  --border: rgba(108, 92, 231, 0.15);
-  --border-light: rgba(255, 255, 255, 0.06);
+  /* Neutral - Modern Light Theme */
+  --bg-primary: #fcfcfd;
+  --bg-secondary: #f8fafc;
+  --bg-card: #ffffff;
+  --bg-card-hover: #fafafa;
+  --surface: #f1f5f9;
+  --border: rgba(99, 102, 241, 0.1);
+  --border-light: rgba(0, 0, 0, 0.05);
 
-  /* Text */
-  --text-primary: #F0F0F5;
-  --text-secondary: #A0A0C0;
-  --text-muted: #6C6C8A;
+  /* Text - High Contrast & Hierarchy */
+  --text-primary: #1e293b;
+  --text-secondary: #475569;
+  --text-muted: #94a3b8;
 
   /* Status */
-  --success: #00B894;
-  --warning: #FDCB6E;
-  --danger: #E17055;
-  --whatsapp: #25D366;
+  --success: #10b981;
+  --warning: #f59e0b;
+  --danger: #ef4444;
+  --whatsapp: #25d366;
 
   /* Spacing */
   --space-xs: 4px;
@@ -46,11 +46,11 @@
   --radius-xl: 24px;
   --radius-full: 9999px;
 
-  /* Shadows */
-  --shadow-sm: 0 2px 8px rgba(0,0,0,0.15);
-  --shadow-md: 0 4px 20px rgba(0,0,0,0.25);
-  --shadow-lg: 0 8px 40px rgba(0,0,0,0.35);
-  --shadow-glow: 0 0 30px rgba(108,92,231,0.3);
+  /* Shadows - Layered for Depth */
+  --shadow-sm: 0 1px 2px 0 rgba(0, 0, 0, 0.05);
+  --shadow-md: 0 4px 6px -1px rgba(0, 0, 0, 0.1), 0 2px 4px -1px rgba(0, 0, 0, 0.06);
+  --shadow-lg: 0 10px 15px -3px rgba(0, 0, 0, 0.1), 0 4px 6px -2px rgba(0, 0, 0, 0.05);
+  --shadow-glow: 0 0 20px rgba(99, 102, 241, 0.2);
 
   /* Transitions */
   --transition-fast: 0.15s ease;
@@ -71,6 +71,8 @@ body {
   min-height: 100vh;
   overflow-x: hidden;
   -webkit-font-smoothing: antialiased;
+  background-image: radial-gradient(at 0% 0%, rgba(99, 102, 241, 0.05) 0px, transparent 50%), 
+                    radial-gradient(at 100% 100%, rgba(6, 182, 212, 0.05) 0px, transparent 50%);
 }
 
 a { color: var(--primary-light); text-decoration: none; transition: var(--transition); }
@@ -102,14 +104,16 @@ input, select, textarea {
   position: fixed;
   top: 0; left: 0; right: 0;
   z-index: 1000;
-  background: rgba(15, 15, 26, 0.85);
-  backdrop-filter: blur(20px);
+  background: rgba(255, 255, 255, 0.7);
+  backdrop-filter: blur(12px);
+  -webkit-backdrop-filter: blur(12px);
   border-bottom: 1px solid var(--border);
   padding: 0 var(--space-xl);
   height: 70px;
   display: flex;
   align-items: center;
   justify-content: space-between;
+  transition: var(--transition);
 }
 
 .nav-brand {
@@ -235,16 +239,17 @@ input, select, textarea {
 .product-card {
   background: var(--bg-card);
   border-radius: var(--radius-lg);
-  border: 1px solid var(--border);
+  border: 1px solid var(--border-light);
   overflow: hidden;
   transition: var(--transition);
   position: relative;
+  box-shadow: var(--shadow-sm);
 }
 
 .product-card:hover {
-  transform: translateY(-6px);
-  border-color: var(--primary);
-  box-shadow: var(--shadow-glow);
+  transform: translateY(-8px);
+  border-color: var(--primary-light);
+  box-shadow: var(--shadow-lg);
 }
 
 .product-card .card-image {
@@ -424,22 +429,28 @@ input, select, textarea {
 
 .filter-tab {
   padding: 10px 20px;
-  background: var(--bg-card);
-  border: 1.5px solid var(--border);
+  background: var(--bg-secondary);
+  border: 1px solid var(--border-light);
   border-radius: var(--radius-full);
   color: var(--text-secondary);
   font-weight: 500;
   font-size: 0.85rem;
   cursor: pointer;
   transition: var(--transition);
+  box-shadow: var(--shadow-sm);
 }
 
-.filter-tab:hover { border-color: var(--primary); color: var(--text-primary); }
+.filter-tab:hover { 
+  border-color: var(--primary-light); 
+  color: var(--primary);
+  background: white;
+}
 
 .filter-tab.active {
-  background: linear-gradient(135deg, var(--primary), var(--primary-dark));
-  border-color: transparent;
+  background: var(--primary);
+  border-color: var(--primary);
   color: white;
+  box-shadow: 0 4px 12px rgba(99, 102, 241, 0.3);
 }
 
 /* ========== Skeleton Loader ========== */
@@ -475,6 +486,24 @@ input, select, textarea {
   text-align: center;
   padding: var(--space-3xl) 0;
   position: relative;
+}
+
+.hero h1 {
+  font-family: 'Outfit', sans-serif;
+  font-size: 3.5rem;
+  font-weight: 800;
+  line-height: 1.1;
+  margin-bottom: var(--space-md);
+  color: var(--text-primary);
+  letter-spacing: -0.02em;
+}
+
+.hero p {
+  font-size: 1.25rem;
+  color: var(--text-secondary);
+  max-width: 650px;
+  margin: 0 auto var(--space-xl);
+  line-height: 1.5;
 }
 
 .hero::before {
@@ -717,3 +746,52 @@ textarea.form-control { resize: vertical; min-height: 100px; }
 .stagger-2 { animation-delay: 0.2s; }
 .stagger-3 { animation-delay: 0.3s; }
 .stagger-4 { animation-delay: 0.4s; }
+
+/* ========== Custom Enhancements ========== */
+.hero-btns {
+  display: flex;
+  gap: var(--space-md);
+  justify-content: center;
+  margin-top: var(--space-lg);
+}
+
+.features-grid {
+  display: grid;
+  grid-template-columns: repeat(auto-fit, minmax(250px, 1fr));
+  gap: var(--space-xl);
+  margin-bottom: var(--space-3xl);
+  padding: var(--space-xl) 0;
+}
+
+.feature-item {
+  text-align: center;
+  padding: var(--space-xl);
+  background: var(--bg-card);
+  border-radius: var(--radius-lg);
+  border: 1px solid var(--border-light);
+  transition: var(--transition);
+  box-shadow: var(--shadow-sm);
+}
+
+.feature-item:hover {
+  transform: translateY(-5px);
+  box-shadow: var(--shadow-md);
+  border-color: var(--primary-light);
+}
+
+.feature-icon {
+  font-size: 2.5rem;
+  margin-bottom: var(--space-md);
+}
+
+.feature-item h3 {
+  font-family: 'Outfit', sans-serif;
+  font-size: 1.25rem;
+  margin-bottom: var(--space-sm);
+  color: var(--text-primary);
+}
+
+.feature-item p {
+  color: var(--text-secondary);
+  font-size: 0.95rem;
+}

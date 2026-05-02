@@ -93,6 +93,16 @@ const API = (() => {
     });
   }
 
+  async function getSiteSettings() {
+    return request('/config/settings');
+  }
+  async function updateSiteSettings(settings) {
+    return request('/admin/config/settings', {
+      method: 'PUT',
+      body: JSON.stringify(settings),
+    });
+  }
+
   // Admin Stats
   async function getStats() { return request('/admin/stats'); }
 
