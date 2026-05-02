@@ -18,19 +18,23 @@
         Bapi Digital
       </div>
        <nav class="sidebar-nav">
-         <a href="#" class="active" data-section="dashboard"><span class="nav-icon">📊</span> Dashboard</a>
-         <a href="#" data-section="products"><span class="nav-icon">📦</span> Products</a>
-         <a href="#" data-section="categories"><span class="nav-icon">🏷️</span> Categories</a>
-         <a href="#" data-section="whatsapp"><span class="nav-icon">💬</span> WhatsApp Config</a>
-         <a href="#" data-section="customize"><span class="nav-icon">🎨</span> Customize Site</a>
-         <a href="#" data-section="gallery"><span class="nav-icon">🖼️</span> Gallery</a>
-         <a href="#" data-section="addProduct"><span class="nav-icon">➕</span> Add Product</a>
-       </nav>
+          <a href="#" class="active" data-section="dashboard"><span class="nav-icon">📊</span> Dashboard</a>
+          <a href="#" data-section="products"><span class="nav-icon">📦</span> Products</a>
+          <a href="#" data-section="categories"><span class="nav-icon">🏷️</span> Categories</a>
+          <a href="#" data-section="whatsapp"><span class="nav-icon">💬</span> WhatsApp Config</a>
+          <a href="#" data-section="customize"><span class="nav-icon">🎨</span> Customize Site</a>
+          <a href="#" data-section="gallery"><span class="nav-icon">🖼️</span> Gallery</a>
+          <a href="#" data-section="addProduct"><span class="nav-icon">➕</span> Add Product</a>
+        </nav>
       <div class="sidebar-footer">
+        <div class="theme-toggle" id="themeToggle" title="Toggle Theme" style="margin-bottom: 10px; width: 40px; height: 20px; background: var(--border-color); border-radius: 20px; position: relative; cursor: pointer; margin-left: auto; margin-right: auto;">
+          <div class="toggle-circle" style="position: absolute; top: 2px; left: 2px; width: 16px; height: 16px; background: white; border-radius: 50%; transition: var(--transition);"></div>
+        </div>
         <a href="../index.html" style="display:flex;align-items:center;gap:8px;color:var(--text-muted);font-size:0.85rem;padding:8px 0;">🏠 Visit Store</a>
-        <button onclick="API.logout()" class="btn btn-outline btn-sm btn-block" style="margin-top:8px;">🚪 Logout</button>
+        <button onclick="API.logout()" class="btn btn-danger btn-sm btn-block" style="margin-top:8px;">🚪 Logout</button>
       </div>
     </aside>
+
 
     <!-- Sidebar Toggle (Mobile) -->
     <button class="sidebar-toggle" id="sidebarToggle" onclick="document.getElementById('sidebar').classList.toggle('open')">☰</button>
@@ -237,6 +241,7 @@
   </div>
 
   <script src="../js/api.js"></script>
+  <script src="../js/common.js"></script>
   <script src="../js/admin.js"></script>
 </body>
 </html>

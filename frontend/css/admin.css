@@ -1,16 +1,141 @@
 /* ========== ADMIN PANEL - Professional & Modern Styles ========== */
+ 
+ /* 
+    Ensure this file is linked AFTER style.css in HTML 
+    The admin panel uses a distinct layout from the storefront.
+ */
+ 
+ :root {
+   /* Admin specific overrides if needed */
+   --admin-sidebar-width: 260px;
+ }
 
-/* 
-   Ensure this file is linked AFTER style.css in HTML 
-   The admin panel uses a distinct layout from the storefront.
-*/
+ /* ========== Theme Overrides for Admin ========== */
+ [data-theme="dark"] {
+   --bg-main: #0f172a;
+   --bg-card: #1e293b;
+   --text-main: #f1f5f9;
+   --text-muted: #94a3b8;
+   --border-color: #334155;
+ }
 
-:root {
-  /* Admin specific overrides if needed */
-  --admin-sidebar-width: 260px;
-}
+ [data-theme="dark"] .admin-sidebar {
+   background: #1e293b;
+   border-right-color: #334155;
+ }
 
-/* ========== Login Page ========== */
+ [data-theme="dark"] .sidebar-nav a:hover {
+   background: #0f172a;
+ }
+
+ [data-theme="dark"] .stat-card {
+   background: #1e293b;
+   border-color: #334155;
+ }
+
+ [data-theme="dark"] .admin-table-wrapper {
+   background: #1e293b;
+   border-color: #334155;
+ }
+
+ [data-theme="dark"] .admin-table th {
+   background: #0f172a;
+   border-bottom-color: #334155;
+ }
+
+ [data-theme="dark"] .admin-table td {
+   border-bottom-color: #334155;
+ }
+
+ [data-theme="dark"] .whatsapp-config, 
+ [data-theme="dark"] .custom-card {
+   background: #1e293b;
+   border-color: #334155;
+ }
+
+ [data-theme="dark"] .form-control {
+   background: #0f172a;
+   border-color: #334155;
+   color: #f1f5f9;
+ }
+
+ /* ========== Button System ========== */
+ .btn {
+   display: inline-flex;
+   align-items: center;
+   justify-content: center;
+   padding: 10px 20px;
+   border-radius: var(--radius-md);
+   font-weight: 600;
+   font-size: 0.9rem;
+   cursor: pointer;
+   transition: var(--transition);
+   border: 1px solid transparent;
+   font-family: inherit;
+   gap: 8px;
+ }
+
+ .btn-primary {
+   background: var(--primary);
+   color: white;
+   box-shadow: 0 4px 12px rgba(99, 102, 241, 0.2);
+ }
+
+ .btn-primary:hover {
+   background: var(--primary-hover);
+   transform: translateY(-2px);
+   box-shadow: 0 6px 15px rgba(99, 102, 241, 0.3);
+ }
+
+ .btn-outline {
+   background: transparent;
+   border-color: var(--border-color);
+   color: var(--text-main);
+ }
+
+ .btn-outline:hover {
+   background: var(--bg-main);
+   border-color: var(--primary);
+   color: var(--primary);
+ }
+
+ .btn-danger {
+   background: var(--danger);
+   color: white;
+ }
+
+ .btn-danger:hover {
+   filter: brightness(0.9);
+   transform: translateY(-2px);
+ }
+
+ .btn-whatsapp {
+   background: #25d366;
+   color: white;
+ }
+
+ .btn-whatsapp:hover {
+   background: #128C7E;
+   transform: translateY(-2px);
+ }
+
+ .btn-block {
+   width: 100%;
+   display: flex;
+ }
+
+ .btn-sm {
+   padding: 6px 12px;
+   font-size: 0.8rem;
+ }
+
+ .btn-lg {
+   padding: 14px 28px;
+   font-size: 1rem;
+ }
+
+ /* ========== Login Page ========== */
+
 .login-page {
   min-height: 100vh;
   display: flex;
