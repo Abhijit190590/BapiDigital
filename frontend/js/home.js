@@ -28,6 +28,14 @@
       ]);
       allProducts = products;
       whatsappNumber = waNumber;
+      
+      // Update Contact Us button
+      const contactBtn = document.getElementById('contactUsBtn');
+      if (contactBtn) {
+        contactBtn.href = `https://wa.me/${whatsappNumber}?text=${encodeURIComponent('Hello, I have a query regarding your products.')}`;
+        contactBtn.target = '_blank';
+      }
+
       applySettings(settings);
       renderRecentProducts();
       renderProducts(allProducts);
