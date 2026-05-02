@@ -9,7 +9,7 @@ const API = (() => {
     if (host === 'localhost' || host === '127.0.0.1' || host === '') {
       return 'http://localhost:8081/api';
     }
-    return 'https://bapidigital.onrender.com/api';
+    return '/api';
   })();
 
   function getToken() {

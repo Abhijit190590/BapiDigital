@@ -33,6 +33,7 @@ public class SecurityConfig {
                 // Public endpoints
                 .requestMatchers(HttpMethod.POST, "/api/auth/login").permitAll()
                 .requestMatchers(HttpMethod.GET, "/api/products/**").permitAll()
+                .requestMatchers(HttpMethod.GET, "/api/gallery").permitAll()
                 .requestMatchers(HttpMethod.GET, "/api/config/whatsapp").permitAll()
                 .requestMatchers(HttpMethod.GET, "/api/config/settings").permitAll()
                 // Admin-only endpoints

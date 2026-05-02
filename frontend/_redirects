@@ -1,0 +1,6 @@
+/api/* https://bapidigital.onrender.com/api/:splat 200
+/about /about.html 200
+/gallery /gallery.html 200
+/feedback /feedback.html 200
+/admin/login /admin/login.html 200
+/admin/dashboard /admin/dashboard.html 200
