@@ -60,13 +60,13 @@
 
   async function loadProducts() {
     const tbody = document.getElementById('productsTableBody');
+    if (!tbody) return;
     tbody.innerHTML = '<tr><td colspan="5" style="text-align:center;padding:40px;">Loading...</td></tr>';
     try {
       const response = await API.getProducts();
-      // Handle paginated response
       allProducts = response.content || response;
       
-      if (allProducts.length === 0) {
+      if (!allProducts || allProducts.length === 0) {
         tbody.innerHTML = '<tr><td colspan="5" style="text-align:center;padding:40px;color:var(--text-muted);">No products yet. Add your first product!</td></tr>';
         return;
       }
@@ -311,7 +311,7 @@
   };
 
   // Edit Product
-    window.editProduct = function (id) {
+    window.editProduct = async function (id) {
       const product = allProducts.find(p => p.id === id);
       if (!product) return;
   
