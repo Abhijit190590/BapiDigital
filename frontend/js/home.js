@@ -44,12 +44,22 @@
     }
 
     try {
+      // Load categories dynamically for filters
+      const categories = await API.getCategories();
+      const filterTabs = document.getElementById('filterTabs');
+      if (filterTabs && categories.length > 0) {
+        let tabsHtml = '<button class="filter-tab active" data-category="ALL">All</button>';
+        tabsHtml += categories.map(c => `
+          <button class="filter-tab" data-category="${c.name}">${c.icon || '📦'} ${c.name}</button>
+        `).join('');
+        filterTabs.innerHTML = tabsHtml;
+      }
+
       const [products, settings] = await Promise.all([
         API.getProducts(),
         API.getSiteSettings(),
       ]);
       allProducts = products;
-      applySettings(settings);
       renderRecentProducts();
       renderProducts(allProducts);
     } catch (err) {
@@ -60,30 +70,32 @@
     }
   }
 
-
-  function applySettings(settings) {
-    if (!settings) return;
-    const root = document.documentElement;
-    
-    if (settings.colorPrimary) root.style.setProperty('--primary', settings.colorPrimary);
-    if (settings.colorBgPrimary) root.style.setProperty('--bg-primary', settings.colorBgPrimary);
-    if (settings.colorTextPrimary) root.style.setProperty('--text-primary', settings.colorTextPrimary);
-    
-    if (settings.heroTitle) {
-      const heroH1 = document.querySelector('.hero h1');
-      if (heroH1) {
-        // Preserve the gradient span if possible
-        const title = settings.heroTitle;
-        const parts = title.split('Bapi Digital');
-        heroH1.innerHTML = `${parts[0]}<span class="gradient-text">Bapi Digital</span>${parts[1] || ''}`;
+    } catch (err) {
+      console.error('Error loading WhatsApp number:', err);
+      // Fallback for button if API fails
+      const contactBtn = document.getElementById('contactUsBtn');
+      if (contactBtn) {
+        contactBtn.href = `https://wa.me/910000000000?text=${encodeURIComponent('Hello!')}`;
+        contactBtn.target = '_blank';
       }
     }
-    if (settings.heroDesc) {
-      const heroP = document.querySelector('.hero p');
-      if (heroP) heroP.textContent = settings.heroDesc;
+
+    try {
+      const [products, settings] = await Promise.all([
+        API.getProducts(),
+        API.getSiteSettings(),
+      ]);
+      allProducts = products;
+      renderRecentProducts();
+      renderProducts(allProducts);
+    } catch (err) {
+      productGrid.innerHTML = '';
+      emptyState.style.display = 'block';
+      emptyState.querySelector('h3').textContent = 'Connection Error';
+      emptyState.querySelector('p').textContent = err.message;
     }
   }
-
+  
   function setupEventListeners() {
     // Search
     searchInput.addEventListener('input', (e) => {

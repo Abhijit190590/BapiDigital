@@ -37,13 +37,16 @@
 
     if (section === 'products') loadProducts();
     if (section === 'dashboard') loadDashboard();
+    if (section === 'categories') loadCategories();
     if (section === 'whatsapp') loadWhatsApp();
     if (section === 'customize') loadSettings();
     if (section === 'gallery') loadGallery();
     if (section === 'addProduct') {
+      loadCategoryDropdown();
       document.getElementById('productFormTitle').innerHTML = '➕ <span class="highlight">Add Product</span>';
     }
   };
+
 
   async function loadDashboard() {
     try {
@@ -153,10 +156,66 @@
     }
   };
 
-  // Save WhatsApp Number
+  async function loadCategories() {
+    const tbody = document.getElementById('categoriesTableBody');
+    tbody.innerHTML = '<tr><td colspan="3" style="text-align:center;padding:40px;">Loading...</td></tr>';
+    try {
+      const categories = await API.getCategories();
+      if (categories.length === 0) {
+        tbody.innerHTML = '<tr><td colspan="3" style="text-align:center;padding:40px;color:var(--text-muted);">No categories yet.</td></tr>';
+        return;
+      }
+      tbody.innerHTML = categories.map(c => `
+        <tr>
+          <td>${c.icon || '📦'}</td>
+          <td>${c.name}</td>
+          <td><button class="action-btn delete" onclick="deleteCategory('${c.id}')" title="Delete">🗑️</button></td>
+        </tr>
+      `).join('');
+    } catch (err) {
+      tbody.innerHTML = `<tr><td colspan="3" style="text-align:center;padding:40px;color:var(--danger);">${err.message}</td></tr>`;
+    }
+  }
 
+  window.saveCategory = async function () {
+    const name = document.getElementById('catName').value.trim();
+    const icon = document.getElementById('catIcon').value.trim();
+    if (!name) { showToast('Category name is required', 'error'); return; }
+    try {
+      await API.createCategory({ name, icon });
+      showToast('Category added!');
+      document.getElementById('catName').value = '';
+      document.getElementById('catIcon').value = '';
+      loadCategories();
+    } catch (err) {
+      showToast(err.message, 'error');
+    }
+  };
 
-  window.saveWhatsApp = async function () {
+  window.deleteCategory = async function (id) {
+    if (!confirm('Delete this category? Products in this category will remain but lose the category link.')) return;
+    try {
+      await API.deleteCategory(id);
+      showToast('Category deleted!');
+      loadCategories();
+    } catch (err) {
+      showToast(err.message, 'error');
+    }
+  };
+
+  async function loadCategoryDropdown() {
+    const select = document.getElementById('prodCategory');
+    try {
+      const categories = await API.getCategories();
+      select.innerHTML = categories.map(c => `<option value="${c.name}">${c.icon || '📦'} ${c.name}</option>`).join('');
+      if (categories.length === 0) {
+        select.innerHTML = '<option value="">No categories available</option>';
+      }
+    } catch (err) {
+      console.error('Error loading categories for dropdown:', err);
+    }
+  }
+
     const number = document.getElementById('waNumber').value.trim();
     if (!number) { showToast('Please enter a phone number', 'error'); return; }
     try {
@@ -247,21 +306,22 @@
   };
 
   // Edit Product
-  window.editProduct = function (id) {
-    const product = allProducts.find(p => p.id === id);
-    if (!product) return;
-
-    document.getElementById('editProductId').value = id;
-    document.getElementById('prodName').value = product.name;
-    document.getElementById('prodPrice').value = product.price;
-    document.getElementById('prodCategory').value = product.category;
-    document.getElementById('prodDesc').value = product.description || '';
-    uploadedImages = product.images || [];
-    renderImagePreviews();
-
-    document.getElementById('productFormTitle').innerHTML = '✏️ <span class="highlight">Edit Product</span>';
-    showSection('addProduct');
-  };
+    window.editProduct = function (id) {
+      const product = allProducts.find(p => p.id === id);
+      if (!product) return;
+  
+      await loadCategoryDropdown();
+      document.getElementById('editProductId').value = id;
+      document.getElementById('prodName').value = product.name;
+      document.getElementById('prodPrice').value = product.price;
+      document.getElementById('prodCategory').value = product.category;
+      document.getElementById('prodDesc').value = product.description || '';
+      uploadedImages = product.images || [];
+      renderImagePreviews();
+  
+      document.getElementById('productFormTitle').innerHTML = '✏️ <span class="highlight">Edit Product</span>';
+      showSection('addProduct');
+    };
 
   // Delete Product
   window.openDeleteModal = function (id, name) {

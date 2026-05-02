@@ -39,6 +39,7 @@ public class SecurityConfig {
                 .requestMatchers(HttpMethod.GET, "/api/config/settings").permitAll()
                 // Admin-only endpoints
                 .requestMatchers("/api/admin/**").hasRole("ADMIN")
+                .requestMatchers("/api/gallery/admin/**").hasRole("ADMIN")
                 // All others require auth
                 .anyRequest().authenticated()
             )

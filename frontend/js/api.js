@@ -127,9 +127,19 @@ const API = (() => {
     return request(`/gallery/admin/${id}`, { method: 'DELETE' });
   }
 
+
+  // Categories
+  async function getCategories() { return request('/categories'); }
+  async function createCategory(category) {
+    return request('/categories/admin', { method: 'POST', body: JSON.stringify(category) });
+  }
+  async function deleteCategory(id) {
+    return request(`/categories/admin/${id}`, { method: 'DELETE' });
+  }
+
   // Admin Stats
   async function getStats() { return request('/admin/stats'); }
-
+  
   return {
     login, logout, isLoggedIn, getToken, clearToken,
     getProducts, getProduct, searchProducts, getProductsByCategory, getRecentProducts,
@@ -137,7 +147,9 @@ const API = (() => {
     getWhatsAppNumber, updateWhatsAppNumber,
     getStats, getSiteSettings, updateSiteSettings,
     getGallery, uploadGalleryImage, deleteGalleryImage,
+    getCategories, createCategory, deleteCategory,
   };
+
 })();
 
 // ========== Utility Functions ==========
