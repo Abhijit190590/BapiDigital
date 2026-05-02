@@ -10,6 +10,8 @@
   const mainImage = document.getElementById('mainImage');
   const galleryThumbs = document.getElementById('galleryThumbs');
 
+  if (!mainImage || !galleryThumbs) { showError(); return; }
+
   async function init() {
     try {
       const [product, waNumber] = await Promise.all([
@@ -59,9 +61,10 @@
 
   // Expose functions globally
   window.switchImage = function (src, thumb) {
+    if (!mainImage || !galleryThumbs) return;
     mainImage.src = src;
     galleryThumbs.querySelectorAll('.gallery-thumb').forEach(t => t.classList.remove('active'));
-    thumb.classList.add('active');
+    if (thumb) thumb.classList.add('active');
   };
 
   window.openZoom = function () {

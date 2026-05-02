@@ -18,6 +18,7 @@
 
   // Init
   async function init() {
+    if (!productGrid) return; // page doesn't have product grid — nothing to do
     productGrid.innerHTML = createSkeletonCards(8);
     setupEventListeners();
     
@@ -134,9 +135,9 @@
 
     if (query) {
       filtered = filtered.filter(p =>
-        p.name.toLowerCase().includes(query) ||
-        p.description.toLowerCase().includes(query) ||
-        p.category.toLowerCase().includes(query)
+        (p.name || '').toLowerCase().includes(query) ||
+        (p.description || '').toLowerCase().includes(query) ||
+        (p.category || '').toLowerCase().includes(query)
       );
     }
 

@@ -1,6 +1,7 @@
 D:\Websites\Bapi Dada\backend\src\main\java\com\bapidigital\BapiDigitalApplication.java
 D:\Websites\Bapi Dada\backend\src\main\java\com\bapidigital\config\CorsConfig.java
 D:\Websites\Bapi Dada\backend\src\main\java\com\bapidigital\config\SecurityConfig.java
+D:\Websites\Bapi Dada\backend\src\main\java\com\bapidigital\controller\AdminConfigController.java
 D:\Websites\Bapi Dada\backend\src\main\java\com\bapidigital\controller\AdminController.java
 D:\Websites\Bapi Dada\backend\src\main\java\com\bapidigital\controller\AuthController.java
 D:\Websites\Bapi Dada\backend\src\main\java\com\bapidigital\controller\ConfigController.java

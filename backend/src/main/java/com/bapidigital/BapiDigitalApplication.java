@@ -10,9 +10,13 @@ import org.springframework.boot.autoconfigure.SpringBootApplication;
 import org.springframework.context.annotation.Bean;
 import org.springframework.security.crypto.password.PasswordEncoder;
 import org.springframework.beans.factory.annotation.Value;
+import org.slf4j.Logger;
+import org.slf4j.LoggerFactory;
 
 @SpringBootApplication
 public class BapiDigitalApplication {
+
+    private static final Logger logger = LoggerFactory.getLogger(BapiDigitalApplication.class);
 
     public static void main(String[] args) {
         SpringApplication.run(BapiDigitalApplication.class, args);
@@ -22,17 +26,25 @@ public class BapiDigitalApplication {
     CommandLineRunner initData(AdminUserRepository adminUserRepo,
                                AdminConfigRepository configRepo,
                                PasswordEncoder passwordEncoder,
-                               @Value("${app.admin.default-username}") String defaultUsername,
-                               @Value("${app.admin.default-password}") String defaultPassword) {
+                               org.springframework.core.env.Environment env) {
         return args -> {
-            // Create default admin if not exists
-            if (adminUserRepo.findByUsername(defaultUsername).isEmpty()) {
-                AdminUser admin = new AdminUser();
-                admin.setUsername(defaultUsername);
-                admin.setPassword(passwordEncoder.encode(defaultPassword));
-                admin.setRole("ADMIN");
-                adminUserRepo.save(admin);
-                System.out.println("✅ Default admin user created: " + defaultUsername);
+            boolean createDefaultAdmin = Boolean.parseBoolean(env.getProperty("app.create-default-admin", "false"));
+            String defaultUsername = env.getProperty("app.admin.default-username", "");
+            String defaultPassword = env.getProperty("app.admin.default-password", "");
+
+            if (createDefaultAdmin) {
+                if (defaultUsername != null && !defaultUsername.isBlank() && defaultPassword != null && !defaultPassword.isBlank()) {
+                    if (adminUserRepo.findByUsername(defaultUsername).isEmpty()) {
+                        AdminUser admin = new AdminUser();
+                        admin.setUsername(defaultUsername);
+                        admin.setPassword(passwordEncoder.encode(defaultPassword));
+                        admin.setRole("ADMIN");
+                        adminUserRepo.save(admin);
+                        logger.info("✅ Default admin user created: {}", defaultUsername);
+                    }
+                } else {
+                    logger.warn("app.create-default-admin=true but admin username/password not provided. Skipping seeding.");
+                }
             }
 
             // Create default WhatsApp config if not exists
@@ -40,7 +52,7 @@ public class BapiDigitalApplication {
                 AdminConfig config = new AdminConfig();
                 config.setWhatsappNumber("919876543210");
                 configRepo.save(config);
-                System.out.println("✅ Default WhatsApp config created");
+                logger.info("✅ Default WhatsApp config created");
             }
         };
     }

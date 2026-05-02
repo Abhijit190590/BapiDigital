@@ -18,5 +18,6 @@ com\bapidigital\repository\GalleryRepository.class
 com\bapidigital\repository\AdminConfigRepository.class
 com\bapidigital\repository\AdminUserRepository.class
 com\bapidigital\controller\AdminController.class
+com\bapidigital\controller\AdminConfigController.class
 com\bapidigital\service\GalleryService.class
 com\bapidigital\repository\ProductRepository.class

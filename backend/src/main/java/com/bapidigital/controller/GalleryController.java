@@ -1,17 +1,23 @@
 package com.bapidigital.controller;
-
+ 
 import com.bapidigital.model.GalleryImage;
 import com.bapidigital.service.GalleryService;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.http.ResponseEntity;
 import org.springframework.web.bind.annotation.*;
+import org.springframework.web.bind.annotation.CrossOrigin;
 import java.util.List;
-
+ 
 @RestController
 @RequestMapping("/api/gallery")
+@CrossOrigin
 public class GalleryController {
-    @Autowired
-    private GalleryService galleryService;
+
+    private final GalleryService galleryService;
+
+    public GalleryController(GalleryService galleryService) {
+        this.galleryService = galleryService;
+    }
 
     @GetMapping
     public ResponseEntity<List<GalleryImage>> getGallery() {
