@@ -8,87 +8,119 @@
   <link rel="icon" href="data:image/svg+xml,<svg xmlns='http://www.w3.org/2000/svg' viewBox='0 0 100 100'><text y='.9em' font-size='90'>📸</text></svg>">
 </head>
 <body>
-  <div class="nav-overlay" id="navOverlay"></div>
-  <nav class="navbar" id="navbar">
+
+  <!-- Navbar -->
+  <nav class="navbar">
     <a href="index.html" class="nav-brand">
-      <div class="brand-icon">📸</div>
+      <span class="logo-icon">📸</span>
       Bapi Digital
     </a>
-    <ul class="nav-links" id="navLinks">
-      <li><a href="index.html">Home</a></li>
-      <li><a href="about.html">About Us</a></li>
-      <li><a href="index.html#productGrid">Catalogue</a></li>
-      <li><a href="gallery.html" class="active">Gallery</a></li>
-      <li><a href="feedback.html">Feedback</a></li>
-      <li><a href="admin/login.html">Admin</a></li>
-    </ul>
-    <button class="nav-toggle" id="navToggle" aria-label="Toggle menu">
-      <span></span><span></span><span></span>
-    </button>
+
+    <div class="nav-search">
+      <span class="search-icon">🔍</span>
+      <input type="text" id="mainSearch" placeholder="Search for clothes, studio gear..." autocomplete="off">
+    </div>
+
+    <div class="nav-menu">
+      <ul class="nav-links">
+        <li><a href="index.html">Home</a></li>
+        <li><a href="about.html">About Us</a></li>
+        <li><a href="index.html#featured">Shop</a></li>
+        <li><a href="gallery.html" class="active">Gallery</a></li>
+        <li><a href="feedback.html">Feedback</a></li>
+      </ul>
+      
+      <div class="nav-icons">
+        <div class="theme-toggle" id="themeToggle">
+          <div class="toggle-circle"></div>
+        </div>
+        <a href="admin/login.html" class="icon-btn" title="Admin Login">👤</a>
+        <div class="icon-btn" id="cartBtn" title="Shopping Cart">
+          🛒
+          <span class="cart-count" id="cartCount">0</span>
+        </div>
+      </div>
+    </div>
+    <button class="nav-toggle" id="navToggle">☰</button>
   </nav>
 
-  <main class="main-content">
-    <div class="container">
-      <section class="gallery-section animate-in" style="text-align: center; padding: var(--space-3xl) 0;">
-        <h1 class="section-title" style="font-size: 3rem; margin-bottom: var(--space-lg);">Our <span class="highlight">Gallery</span></h1>
-        <p style="max-width: 600px; margin: 0 auto var(--space-xl); color: var(--text-secondary);">A showcase of our best works and premium studio products in action.</p>
-        
-        <div class="gallery-grid" id="galleryGrid" style="display: grid; grid-template-columns: repeat(auto-fill, minmax(300px, 1fr)); gap: var(--space-lg);">
-          <!-- Gallery images will be loaded here -->
-        </div>
-      </section>
-    </div>
+  <main class="main-content" style="padding-top: 120px;">
+    <section class="section">
+      <div class="section-header" style="display: flex; justify-content: center; text-align: center; flex-direction: column; align-items: center; gap: 10px;">
+        <h1 class="section-title">Our <span class="highlight">Gallery</span></h1>
+        <p style="color: var(--text-muted); max-width: 600px;">A showcase of our best works and premium studio products in action.</p>
+      </div>
+      
+      <div class="product-grid" id="galleryGrid">
+        <!-- Gallery images loaded via JS -->
+      </div>
+    </section>
   </main>
 
   <footer class="footer">
-    <div class="container">
-      <div class="footer-brand">📸 Bapi Digital</div>
-      <p>&copy; 2026 Bapi Digital. All rights reserved.</p>
+    <div class="footer-grid">
+      <div class="footer-col">
+        <h4>Bapi Digital</h4>
+        <p style="color: var(--text-muted); font-size: 0.9rem; margin-bottom: 20px;">Your premium destination for photography studio gear and aesthetic apparel.</p>
+        <div class="social-links" style="display:flex; gap:15px; font-size:1.5rem;">
+          <a href="#">📸</a> <a href="#">📘</a> <a href="#">🐦</a>
+        </div>
+      </div>
+      <div class="footer-col">
+        <h4>Quick Links</h4>
+        <ul class="footer-links">
+          <li><a href="index.html">Home</a></li>
+          <li><a href="about.html">About Us</a></li>
+          <li><a href="gallery.html">Gallery</a></li>
+          <li><a href="feedback.html">Feedback</a></li>
+        </ul>
+      </div>
+      <div class="footer-col">
+        <h4>Support</h4>
+        <ul class="footer-links">
+          <li><a href="#">Privacy Policy</a></li>
+          <li><a href="#">Terms of Service</a></li>
+          <li><a href="#">Shipping Policy</a></li>
+          <li><a href="#">Contact Support</a></li>
+        </ul>
+      </div>
     </div>
-    </footer>
+    <div class="footer-bottom">
+      &copy; 2026 Bapi Digital. All rights reserved. Designed for Excellence.
+    </div>
+  </footer>
 
   <script src="js/api.js"></script>
   <script src="js/common.js"></script>
   <script>
+    document.getElementById('navToggle').addEventListener('click', () => {
+      document.querySelector('.nav-links').classList.toggle('open');
+    });
+
     async function loadGallery() {
       const grid = document.getElementById('galleryGrid');
       try {
         const images = await API.getGallery();
         if (images.length === 0) {
-          grid.innerHTML = '<p style="grid-column: 1/-1; color: var(--text-muted);">No images in gallery yet.</p>';
+          grid.innerHTML = '<p style="grid-column: 1/-1; text-align:center; color: var(--text-muted);">No images in gallery yet.</p>';
           return;
         }
         grid.innerHTML = images.map(img => `
-          <div class="gallery-item" style="position:relative; aspect-ratio: 1; overflow:hidden; border-radius: var(--radius-lg); box-shadow: var(--shadow-sm); transition: var(--transition); cursor:pointer;" onmouseover="this.style.transform='scale(1.02)'" onmouseout="this.style.transform='scale(1)'">
-            <img src="${img.imageUrl}" style="width:100%; height:100%; object-fit:cover;">
-            <div style="position:absolute; bottom:0; left:0; right:0; background:linear-gradient(transparent, rgba(0,0,0,0.7)); color:white; padding:var(--space-md); text-align:left; font-size:0.9rem;">
-              ${img.caption || ''}
+          <div class="product-card">
+            <div class="img-container">
+              <img src="${img.imageUrl}" alt="Gallery image" loading="lazy">
+            </div>
+            <div class="product-info" style="text-align:center;">
+              <div class="product-name">${img.caption || 'Studio Work'}</div>
             </div>
           </div>
         `).join('');
       } catch (err) {
-        grid.innerHTML = '<p style="grid-column: 1/-1; color: var(--danger);">Error loading gallery.</p>';
+        grid.innerHTML = '<p style="grid-column: 1/-1; text-align:center; color: var(--danger);">Error loading gallery.</p>';
       }
     }
 
     loadGallery();
-
-    document.getElementById('navToggle').addEventListener('click', () => {
-      document.getElementById('navLinks').classList.toggle('open');
-      document.getElementById('navOverlay').classList.toggle('active');
-    });
-
-    document.getElementById('navOverlay').addEventListener('click', () => {
-      document.getElementById('navLinks').classList.remove('open');
-      document.getElementById('navOverlay').classList.remove('active');
-    });
-
-    document.querySelectorAll('.nav-links a').forEach(link => {
-      link.addEventListener('click', () => {
-        document.getElementById('navLinks').classList.remove('open');
-        document.getElementById('navOverlay').classList.remove('active');
-      });
-    });
   </script>
 </body>
 </html>

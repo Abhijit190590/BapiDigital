@@ -48,37 +48,28 @@
   }
 
   function setupEventListeners() {
-    // Theme Toggle
-    themeToggle.addEventListener('click', () => {
-      const currentTheme = document.documentElement.getAttribute('data-theme');
-      const newTheme = currentTheme === 'dark' ? 'light' : 'dark';
-      document.documentElement.setAttribute('data-theme', newTheme);
-      localStorage.setItem('bapi_theme', newTheme);
-    });
-
-    // Set initial theme
-    const savedTheme = localStorage.getItem('bapi_theme') || 'light';
-    document.documentElement.setAttribute('data-theme', savedTheme);
-
     // Search
-    mainSearch.addEventListener('input', (e) => {
-      const query = e.target.value.trim().toLowerCase();
-      if (query.length > 2) {
-        // When searching, we transform the featured grid into search results
-        performSearch(query);
-      } else if (query.length === 0) {
-        renderFeatured();
-      }
-    });
+    if (mainSearch) {
+      mainSearch.addEventListener('input', (e) => {
+        const query = e.target.value.trim().toLowerCase();
+        if (query.length > 2) {
+          performSearch(query);
+        } else if (query.length === 0) {
+          renderFeatured();
+        }
+      });
+    }
 
     // Mobile Nav
     const navToggle = document.getElementById('navToggle');
     if (navToggle) {
       navToggle.addEventListener('click', () => {
-        document.querySelector('.nav-links').classList.toggle('open');
+        const navLinks = document.querySelector('.nav-links');
+        if (navLinks) navLinks.classList.toggle('open');
       });
     }
   }
+
 
   async function performSearch(query) {
     featuredGrid.innerHTML = '<div class="loader-small">Searching...</div>';
