@@ -27,9 +27,4 @@ public class ConfigController {
     public ResponseEntity<?> getSettings() {
         return ResponseEntity.ok(configService.getSiteSettings());
     }
-
-    @PutMapping("/admin/settings")
-    public ResponseEntity<?> updateSettings(@RequestBody Map<String, Object> settings) {
-        return ResponseEntity.ok(configService.updateSiteSettings(settings));
-    }
 }
