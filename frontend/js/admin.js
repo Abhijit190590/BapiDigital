@@ -231,7 +231,6 @@
   }
 
   window.saveWhatsApp = async function () {
-  window.saveWhatsApp = async function () {
     const number = document.getElementById('waNumber').value.trim();
     if (!number) { showToast('Please enter a phone number', 'error'); return; }
     try {
