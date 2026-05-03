@@ -1,0 +1,101 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+  <meta charset="UTF-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1.0">
+  <title>Terms of Service — Bapi Digital</title>
+  <link rel="stylesheet" href="css/style.css">
+  <link rel="icon" href="data:image/svg+xml,<svg xmlns='http://www.w3.org/2000/svg' viewBox='0 0 100 100'><text y='.9em' font-size='90'>📸</text></svg>">
+</head>
+<body>
+
+  <!-- Navbar -->
+  <nav class="navbar">
+    <a href="index.html" class="nav-brand">
+      <span class="logo-icon">📸</span>
+      Bapi Digital
+    </a>
+
+    <div class="nav-search">
+      <span class="search-icon">🔍</span>
+      <input type="text" id="mainSearch" placeholder="Search for clothes, studio gear..." autocomplete="off">
+    </div>
+
+    <div class="nav-menu">
+      <ul class="nav-links">
+        <li><a href="index.html">Home</a></li>
+        <li><a href="about.html">About Us</a></li>
+        <li><a href="index.html#featured">Shop</a></li>
+        <li><a href="gallery.html">Gallery</a></li>
+        <li><a href="feedback.html">Feedback</a></li>
+      </ul>
+      
+      <div class="nav-icons">
+        <div class="theme-toggle" id="themeToggle">
+          <div class="toggle-circle"></div>
+        </div>
+        <a href="admin/login.html" class="icon-btn" title="Admin Login">👤</a>
+        <div class="icon-btn" id="cartBtn" title="Shopping Cart">
+          🛒
+          <span class="cart-count" id="cartCount">0</span>
+        </div>
+      </div>
+    </div>
+    <button class="nav-toggle" id="navToggle">☰</button>
+  </nav>
+
+  <main class="main-content" style="padding-top: 120px;">
+    <section class="section">
+      <div class="section-header" style="justify-content: center; text-align: center; flex-direction: column; gap: 10px;">
+        <h1 class="section-title">Terms of <span class="highlight">Service</span></h1>
+        <p style="color: var(--text-muted);">The rules and guidelines for using our services.</p>
+      </div>
+      
+      <div class="review-card" style="max-width: 800px; margin: 0 auto; padding: 40px; text-align: left; line-height: 1.8;">
+        <div id="policyContent" style="white-space: pre-line;">Loading policy...</div>
+      </div>
+    </section>
+  </main>
+
+  <footer class="footer">
+    <div class="footer-grid">
+      <div class="footer-col">
+        <h4>Bapi Digital</h4>
+        <p style="color: var(--text-muted); font-size: 0.9rem; margin-bottom: 20px;">Your premium destination for photography studio gear and aesthetic apparel.</p>
+        <div class="social-links" style="display:flex; gap:15px; font-size:1.5rem;">
+          <a href="#">📸</a> <a href="#">📘</a> <a href="#">🐦</a>
+        </div>
+      </div>
+      <div class="footer-col">
+        <h4>Quick Links</h4>
+        <ul class="footer-links">
+          <li><a href="index.html">Home</a></li>
+          <li><a href="about.html">About Us</a></li>
+          <li><a href="gallery.html">Gallery</a></li>
+          <li><a href="feedback.html">Feedback</a></li>
+        </ul>
+      </div>
+      <div class="footer-col">
+        <h4>Support</h4>
+        <ul class="footer-links">
+          <li><a href="privacy.html">Privacy Policy</a></li>
+          <li><a href="terms.html" class="active">Terms of Service</a></li>
+          <li><a href="shipping.html">Shipping Policy</a></li>
+          <li><a href="#">Contact Support</a></li>
+        </ul>
+      </div>
+    </div>
+    <div class="footer-bottom">
+      &copy; 2026 Bapi Digital. All rights reserved. Designed for Excellence.
+    </div>
+  </footer>
+
+  <script src="js/api.js"></script>
+  <script src="js/common.js"></script>
+  <script>
+    document.getElementById('navToggle').addEventListener('click', () => {
+      document.querySelector('.nav-links').classList.toggle('open');
+    });
+  </script>
+</body>
+</html>

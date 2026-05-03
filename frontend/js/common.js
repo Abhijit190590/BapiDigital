@@ -19,6 +19,37 @@
     });
   }
 
+  // --- Global Navigation ---
+  function initNavigation() {
+    const navToggle = document.getElementById('navToggle');
+    if (!navToggle) return;
+
+    navToggle.addEventListener('click', () => {
+      const navLinks = document.querySelector('.nav-links');
+      if (navLinks) {
+        navLinks.classList.toggle('open');
+      }
+    });
+  }
+
+  // --- Floating WhatsApp ---
+  async function initFloatingWhatsApp() {
+    try {
+      const waNumber = await API.getWhatsAppNumber();
+      const waLink = `https://wa.me/${waNumber}?text=${encodeURIComponent('Hello Bapi Digital, I have a query!')}`;
+      
+      const floatBtn = document.createElement('a');
+      floatBtn.href = waLink;
+      floatBtn.className = 'whatsapp-float';
+      floatBtn.target = '_blank';
+      floatBtn.innerHTML = '💬';
+      floatBtn.title = 'Contact us on WhatsApp';
+      document.body.appendChild(floatBtn);
+    } catch (err) {
+      console.error('Could not load WhatsApp number for float button', err);
+    }
+  }
+
   // --- Cart Management ---
   function initCart() {
     const cartBtn = document.getElementById('cartBtn');
@@ -142,11 +173,10 @@
 
       const root = document.documentElement;
       
-       // Apply Colors
-       if (settings.colorPrimary) root.style.setProperty('--dynamic-primary', settings.colorPrimary);
-       if (settings.colorBgPrimary) root.style.setProperty('--dynamic-bg-main', settings.colorBgPrimary);
-       if (settings.colorTextPrimary) root.style.setProperty('--dynamic-text-main', settings.colorTextPrimary);
-
+      // Apply Colors
+      if (settings.colorPrimary) root.style.setProperty('--dynamic-primary', settings.colorPrimary);
+      if (settings.colorBgPrimary) root.style.setProperty('--dynamic-bg-main', settings.colorBgPrimary);
+      if (settings.colorTextPrimary) root.style.setProperty('--dynamic-text-main', settings.colorTextPrimary);
       
       // Apply Hero Content (only if it exists on the current page)
       if (settings.heroTitle) {
@@ -161,6 +191,30 @@
         const heroP = document.querySelector('.hero p');
         if (heroP) heroP.textContent = settings.heroDesc;
       }
+
+      // Apply About Page Content
+      if (settings.aboutTitle) {
+        const aboutH1 = document.getElementById('aboutTitle');
+        if (aboutH1) {
+          const title = settings.aboutTitle;
+          aboutH1.innerHTML = `${title.replace('Bapi Digital', '<span class="highlight">Bapi Digital</span>')}`;
+        }
+      }
+      if (settings.aboutDesc) {
+        const aboutP = document.getElementById('aboutDesc');
+        if (aboutP) aboutP.textContent = settings.aboutDesc;
+      }
+
+      // Apply Policy Content
+      const policyContent = document.getElementById('policyContent');
+      if (policyContent) {
+        const path = window.location.pathname;
+        let content = 'Our policies are being updated. Please contact us for more details.';
+        if (path.includes('privacy.html')) content = settings.privacyPolicy || content;
+        else if (path.includes('terms.html')) content = settings.termsOfService || content;
+        else if (path.includes('shipping.html')) content = settings.shippingPolicy || content;
+        policyContent.textContent = content;
+      }
     } catch (err) {
       console.error('Error applying global settings:', err);
     }
@@ -169,9 +223,13 @@
   // Initial setup
   document.addEventListener('DOMContentLoaded', () => {
     initTheme();
+    initNavigation();
+    initFloatingWhatsApp();
     initCart();
     applyGlobalSettings();
   });
 })();
+
+
 
 
