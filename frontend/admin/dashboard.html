@@ -138,31 +138,60 @@
          <h2 class="section-title" style="margin-bottom: var(--space-xl);">🎨 <span class="highlight">Customize Site</span></h2>
          <div class="customization-grid">
            
-           <!-- Colors -->
+           <!-- Brand Identity Card -->
            <div class="custom-card">
              <h3 style="margin-bottom: var(--space-md);">🖼️ Brand Identity</h3>
              <div class="form-group">
                <label>Website Logo</label>
-               <div style="display: flex; align-items: center; gap: 15px;">
-                 <div id="logoPreview" style="width: 60px; height: 60px; border-radius: 12px; border: 1px solid var(--border-color); object-fit: contain; background: var(--bg-main); display: flex; align-items: center; justify-content: center; overflow: hidden;">
-                   <span style="font-size: 0.7rem; color: var(--text-muted);">No Logo</span>
+               <div style="display: flex; align-items: center; gap: 15px; margin-top: 10px;">
+                 <div id="logoPreview" style="width: 70px; height: 70px; border-radius: 12px; border: 1px solid var(--border-color); object-fit: contain; background: var(--bg-main); display: flex; align-items: center; justify-content: center; overflow: hidden; box-shadow: var(--shadow-sm);">
+                   <span style="font-size: 0.7rem; color: var(--text-muted); text-align: center; padding: 5px;">No Logo</span>
                  </div>
                  <button class="btn btn-outline btn-sm" onclick="document.getElementById('logoInput').click()">Change Logo</button>
                  <input type="file" id="logoInput" accept="image/*" style="display:none;" onchange="handleLogoUpload(event)">
                </div>
              </div>
+             <p style="font-size: 0.8rem; color: var(--text-muted); margin-top: 10px;">Upload a square PNG/JPG for best results.</p>
+           </div>
 
-             <div style="margin-top: 20px; padding-top: 20px; border-top: 1px solid var(--border-color);">
-               <h3 style="margin-bottom: var(--space-md);">🎨 Theme Presets</h3>
-               <div class="form-group">
-                 <label for="themePreset">Select a Theme</label>
-                 <select id="themePreset" class="form-control" onchange="applyThemePreset(this.value)">
-                   <option value="modern-indigo">Modern Indigo (Default)</option>
-                   <option value="sleek-dark">Sleek Dark</option>
-                   <option value="minimal-white">Minimal White</option>
-                   <option value="ocean-blue">Ocean Blue</option>
-                   <option value="sunset-orange">Sunset Orange</option>
-                 </select>
+           <!-- Theme Selection Card -->
+           <div class="custom-card">
+             <h3 style="margin-bottom: var(--space-md);">🎨 Theme Presets</h3>
+             <div class="form-group">
+               <label for="themePreset">Quick Theme Change</label>
+               <select id="themePreset" class="form-control" onchange="applyThemePreset(this.value)">
+                 <option value="modern-indigo">Modern Indigo (Default)</option>
+                 <option value="sleek-dark">Sleek Dark</option>
+                 <option value="minimal-white">Minimal White</option>
+                 <option value="ocean-blue">Ocean Blue</option>
+                 <option value="sunset-orange">Sunset Orange</option>
+               </select>
+             </div>
+             <p style="font-size: 0.8rem; color: var(--text-muted); margin-top: 10px;">Presets quickly update the site's overall color palette.</p>
+           </div>
+
+           <!-- Custom Colors Card -->
+           <div class="custom-card">
+             <h3 style="margin-bottom: var(--space-md);">🌈 Custom Colors</h3>
+             <div class="form-group">
+               <label>Primary Color</label>
+               <div style="display: flex; gap: 10px; align-items: center;">
+                 <input type="color" id="colorPrimary" style="width: 40px; height: 40px; cursor: pointer; border: none; background: none;">
+                 <span style="font-size: 0.85rem; color: var(--text-muted);">Main accent color</span>
+               </div>
+             </div>
+             <div class="form-group">
+               <label>Background Color</label>
+               <div style="display: flex; gap: 10px; align-items: center;">
+                 <input type="color" id="colorBgPrimary" style="width: 40px; height: 40px; cursor: pointer; border: none; background: none;">
+                 <span style="font-size: 0.85rem; color: var(--text-muted);">Main page background</span>
+               </div>
+             </div>
+             <div class="form-group">
+               <label>Text Color</label>
+               <div style="display: flex; gap: 10px; align-items: center;">
+                 <input type="color" id="colorTextPrimary" style="width: 40px; height: 40px; cursor: pointer; border: none; background: none;">
+                 <span style="font-size: 0.85rem; color: var(--text-muted);">General text color</span>
                </div>
              </div>
            </div>
