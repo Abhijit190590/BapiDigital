@@ -27,17 +27,23 @@
     // Mobile Sidebar Toggle
     const sidebar = document.getElementById('sidebar');
     const toggle = document.getElementById('sidebarToggle');
-    const mainContent = document.querySelector('.admin-main');
+    const overlay = document.getElementById('sidebarOverlay');
+
+    const toggleSidebar = () => {
+      const isOpen = sidebar.classList.toggle('open');
+      if (overlay) overlay.classList.toggle('active', isOpen);
+    };
 
     if (toggle) {
-      toggle.addEventListener('click', () => {
-        sidebar.classList.toggle('open');
+      toggle.addEventListener('click', (e) => {
+        e.stopPropagation();
+        toggleSidebar();
       });
     }
 
-    if (mainContent) {
-      mainContent.addEventListener('click', () => {
-        sidebar.classList.remove('open');
+    if (overlay) {
+      overlay.addEventListener('click', () => {
+        toggleSidebar();
       });
     }
   }

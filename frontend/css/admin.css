@@ -650,19 +650,34 @@
 
 /* Mobile Responsiveness */
 .sidebar-toggle {
-  display: none;
-  position: fixed;
-  bottom: 24px; right: 24px;
-  width: 56px; height: 56px;
-  background: var(--primary);
-  color: white;
-  border-radius: 50%;
-  border: none;
-  font-size: 1.5rem;
-  z-index: 2000;
-  box-shadow: var(--shadow-lg);
-  cursor: pointer;
+    display: none;
+    position: fixed;
+    bottom: 24px; right: 24px;
+    width: 56px; height: 56px;
+    background: var(--primary);
+    color: white;
+    border-radius: 50%;
+    border: none;
+    font-size: 1.5rem;
+    z-index: 2100;
+    box-shadow: var(--shadow-lg);
+    cursor: pointer;
 }
+
+.sidebar-overlay {
+    position: fixed;
+    inset: 0;
+    background: rgba(0, 0, 0, 0.5);
+    backdrop-filter: blur(2px);
+    z-index: 1100;
+    display: none;
+    transition: opacity 0.3s ease;
+}
+
+.sidebar-overlay.active {
+    display: block;
+}
+
 
 @media (max-width: 768px) {
   .admin-sidebar {
