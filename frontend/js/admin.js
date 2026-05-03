@@ -310,20 +310,23 @@
   };
 
   // Save Product
-  window.saveProduct = async function () {
-    const btn = event?.target?.closest('button') || document.querySelector('#sec-addProduct .btn-primary');
+  window.saveProduct = async function (e) {
+    // Handle event for loading state
+    const btn = e?.target?.closest('button') || document.querySelector('#sec-addProduct .btn-primary');
+    
     const id = document.getElementById('editProductId').value;
     const name = document.getElementById('prodName').value.trim();
     const price = parseFloat(document.getElementById('prodPrice').value);
     const category = document.getElementById('prodCategory').value;
     const description = document.getElementById('prodDesc').value.trim();
-
+ 
     if (!name) { showToast('Product name is required', 'error'); return; }
-    if (!price || price <= 0) { showToast('Valid price is required', 'error'); return; }
-
+    if (isNaN(price) || price <= 0) { showToast('Valid price is required', 'error'); return; }
+ 
     const product = { name, price, category, description };
-    if (uploadedImages.length > 0) product.images = uploadedImages;
-
+    // Always send current uploadedImages state (even if empty to clear images)
+    product.images = uploadedImages;
+ 
     try {
       if (btn) btn.classList.add('btn-loading');
       if (id) {
@@ -346,6 +349,7 @@
       if (btn) btn.classList.remove('btn-loading');
     }
   };
+
 
 
   // Edit Product
