@@ -98,11 +98,8 @@
   <script src="js/api.js"></script>
   <script src="js/common.js"></script>
   <script>
-    document.getElementById('navToggle').addEventListener('click', () => {
-      document.querySelector('.nav-links').classList.toggle('open');
-    });
-
     async function loadGallery() {
+
       const grid = document.getElementById('galleryGrid');
       try {
         const images = await API.getGallery();
