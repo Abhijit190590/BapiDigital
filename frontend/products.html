@@ -1,0 +1,108 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+  <meta charset="UTF-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1.0">
+  <meta name="description" content="Bapi Digital - Explore our complete collection of studio products.">
+  <title>All Products — Bapi Digital</title>
+  <link rel="stylesheet" href="css/style.css">
+  <link rel="icon" href="data:image/svg+xml,<svg xmlns='http://www.w3.org/2000/svg' viewBox='0 0 100 100'><text y='.9em' font-size='90'>📸</text></svg>">
+</head>
+<body>
+
+  <!-- Loading Spinner -->
+  <div class="loader" id="pageLoader">
+    <div class="spinner"></div>
+  </div>
+
+  <!-- Navbar -->
+    <nav class="navbar">
+      <a href="index.html" class="nav-brand">
+        <img src="Logo.jpeg" class="logo-icon" alt="Bapi Digital Logo">
+        Bapi Digital
+      </a>
+
+    <div class="nav-search">
+      <span class="search-icon">🔍</span>
+      <input type="text" id="mainSearch" placeholder="Search for clothes, studio gear..." autocomplete="off">
+    </div>
+
+    <div class="nav-menu">
+       <ul class="nav-links">
+          <li><a href="index.html">Home</a></li>
+          <li><a href="about.html">About</a></li>
+          <li><a href="products.html" class="active">Shop</a></li>
+          <li><a href="gallery.html">Gallery</a></li>
+          <li><a href="feedback.html">Feedback</a></li>
+          <li><a href="index.html#contact">Contact</a></li>
+        </ul>
+
+      <div class="nav-icons">
+        <div class="theme-toggle" id="themeToggle">
+          <div class="toggle-circle"></div>
+        </div>
+        <a href="admin/login.html" class="icon-btn" title="Admin Login">👤</a>
+        <div class="icon-btn" id="cartBtn" title="Shopping Cart">
+          🛒
+          <span class="cart-count" id="cartCount">0</span>
+        </div>
+      </div>
+    </div>
+    
+    <button class="nav-toggle" id="navToggle">☰</button>
+  </nav>
+
+  <main class="main-content" style="padding-top: 100px;">
+    <section class="section">
+      <div class="section-header" style="display: flex; justify-content: center; text-align: center; flex-direction: column; align-items: center; gap: 10px;">
+        <h2 class="section-title">Our <span class="highlight">Full Collection</span></h2>
+        <p style="color: var(--text-muted); max-width: 600px;">Browse through all our professional studio gear and aesthetic apparel.</p>
+      </div>
+      
+      <div class="product-grid" id="productsGrid">
+        <!-- Products loaded via JS -->
+      </div>
+    </section>
+  </main>
+
+  <footer class="footer">
+    <div class="footer-grid">
+      <div class="footer-col">
+        <h4>Bapi Digital</h4>
+        <p style="color: var(--text-muted); font-size: 0.9rem; margin-bottom: 20px;">Your premium destination for photography studio gear and aesthetic apparel.</p>
+        <div class="social-links" style="display:flex; gap:15px; font-size:1.5rem;">
+          <a href="#">📸</a> <a href="#">📘</a> <a href="#">🐦</a>
+        </div>
+      </div>
+       <div class="footer-col">
+          <h4>Quick Links</h4>
+          <ul class="footer-links">
+            <li><a href="index.html">Home</a></li>
+            <li><a href="about.html">About Us</a></li>
+            <li><a href="products.html">Shop</a></li>
+            <li><a href="gallery.html">Gallery</a></li>
+            <li><a href="feedback.html">Feedback</a></li>
+            <li><a href="index.html#contact">Contact Us</a></li>
+          </ul>
+        </div>
+
+       <div class="footer-col">
+          <h4>Support</h4>
+          <ul class="footer-links">
+            <li><a href="privacy.html">Privacy Policy</a></li>
+            <li><a href="terms.html">Terms of Service</a></li>
+            <li><a href="shipping.html">Shipping Policy</a></li>
+            <li><a href="#">Contact Support</a></li>
+          </ul>
+        </div>
+    </div>
+    <div class="footer-bottom">
+      &copy; 2026 Bapi Digital. All rights reserved. Designed for Excellence.
+    </div>
+  </footer>
+
+  <script src="js/api.js"></script>
+  <script src="js/common.js"></script>
+  <script src="js/products.js"></script>
+</body>
+</html>
