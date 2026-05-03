@@ -125,6 +125,16 @@
       document.getElementById('colorPrimary').value = settings.colorPrimary || '#6366f1';
       document.getElementById('colorBgPrimary').value = settings.colorBgPrimary || '#fcfcfd';
       document.getElementById('colorTextPrimary').value = settings.colorTextPrimary || '#1e293b';
+
+      // Page Content
+      document.getElementById('siteHeroTitle').value = settings.siteHeroTitle || '';
+      document.getElementById('siteHeroDesc').value = settings.siteHeroDesc || '';
+      document.getElementById('siteAboutTitle').value = settings.siteAboutTitle || '';
+      document.getElementById('siteAboutDesc').value = settings.siteAboutDesc || '';
+      document.getElementById('sitePrivacyPolicy').value = settings.sitePrivacyPolicy || '';
+      document.getElementById('siteTermsOfService').value = settings.siteTermsOfService || '';
+      document.getElementById('siteShippingPolicy').value = settings.siteShippingPolicy || '';
+
     } catch (err) {
       showToast(err.message, 'error');
     }
@@ -151,12 +161,14 @@
 
   window.uploadGalleryImage = async function(event) {
     const file = event.target.files[0];
+    const caption = document.getElementById('galleryCaption').value.trim();
     if (!file) return;
     
     try {
       const base64 = await fileToBase64(file);
-      await API.uploadGalleryImage({ imageUrl: base64, caption: 'Gallery Image' });
+      await API.uploadGalleryImage({ imageUrl: base64, caption: caption || 'Gallery Image' });
       showToast('Image uploaded to gallery!');
+      document.getElementById('galleryCaption').value = '';
       loadGallery();
     } catch (err) {
       showToast(err.message, 'error');
@@ -225,7 +237,8 @@
     const select = document.getElementById('prodCategory');
     try {
       const categories = await API.getCategories();
-      select.innerHTML = categories.map(c => `<option value="${c.name}">${c.icon || '📦'} ${c.name}</option>`).join('');
+      select.innerHTML = '<option value="">-- Select Category --</option>' + 
+                         categories.map(c => `<option value="${c.name}">${c.icon || '📦'} ${c.name}</option>`).join('');
       if (categories.length === 0) {
         select.innerHTML = '<option value="">No categories available</option>';
       }
@@ -266,8 +279,15 @@
       colorBgPrimary: document.getElementById('colorBgPrimary').value,
       colorTextPrimary: document.getElementById('colorTextPrimary').value,
       logoUrl: currentLogo,
+      siteHeroTitle: document.getElementById('siteHeroTitle').value,
+      siteHeroDesc: document.getElementById('siteHeroDesc').value,
+      siteAboutTitle: document.getElementById('siteAboutTitle').value,
+      siteAboutDesc: document.getElementById('siteAboutDesc').value,
+      sitePrivacyPolicy: document.getElementById('sitePrivacyPolicy').value,
+      siteTermsOfService: document.getElementById('siteTermsOfService').value,
+      siteShippingPolicy: document.getElementById('siteShippingPolicy').value,
     };
- 
+  
     try {
       await API.updateSiteSettings(settings);
       showToast('Site settings updated successfully!');
@@ -275,6 +295,7 @@
       showToast(err.message, 'error');
     }
   };
+
 
 
   // Image Upload
@@ -400,7 +421,7 @@
     document.getElementById('editProductId').value = '';
     document.getElementById('prodName').value = '';
     document.getElementById('prodPrice').value = '';
-    document.getElementById('prodCategory').value = 'CLOTHES';
+    document.getElementById('prodCategory').value = '';
     document.getElementById('prodDesc').value = '';
     uploadedImages = [];
     document.getElementById('imagePreviews').innerHTML = '';
