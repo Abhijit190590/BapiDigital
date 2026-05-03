@@ -59,16 +59,8 @@
         }
       });
     }
-
-    // Mobile Nav
-    const navToggle = document.getElementById('navToggle');
-    if (navToggle) {
-      navToggle.addEventListener('click', () => {
-        const navLinks = document.querySelector('.nav-links');
-        if (navLinks) navLinks.classList.toggle('open');
-      });
-    }
   }
+
 
 
   async function performSearch(query) {
