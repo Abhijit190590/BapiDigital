@@ -23,6 +23,23 @@
         showSection(link.dataset.section);
       });
     });
+
+    // Mobile Sidebar Toggle
+    const sidebar = document.getElementById('sidebar');
+    const toggle = document.getElementById('sidebarToggle');
+    const mainContent = document.querySelector('.admin-main');
+
+    if (toggle) {
+      toggle.addEventListener('click', () => {
+        sidebar.classList.toggle('open');
+      });
+    }
+
+    if (mainContent) {
+      mainContent.addEventListener('click', () => {
+        sidebar.classList.remove('open');
+      });
+    }
   }
 
   // Expose showSection globally
