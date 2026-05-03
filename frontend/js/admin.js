@@ -58,6 +58,8 @@
 
     // Close mobile sidebar
     document.getElementById('sidebar').classList.remove('open');
+    const overlay = document.getElementById('sidebarOverlay');
+    if (overlay) overlay.classList.remove('active');
 
     if (section === 'products') loadProducts();
     if (section === 'dashboard') loadDashboard();
