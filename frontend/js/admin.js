@@ -125,15 +125,6 @@
       document.getElementById('colorPrimary').value = settings.colorPrimary || '#6366f1';
       document.getElementById('colorBgPrimary').value = settings.colorBgPrimary || '#fcfcfd';
       document.getElementById('colorTextPrimary').value = settings.colorTextPrimary || '#1e293b';
-      
-      // Content
-      document.getElementById('siteHeroTitle').value = settings.heroTitle || '';
-      document.getElementById('siteHeroDesc').value = settings.heroDesc || '';
-      document.getElementById('siteAboutTitle').value = settings.aboutTitle || '';
-      document.getElementById('siteAboutDesc').value = settings.aboutDesc || '';
-      document.getElementById('sitePrivacyPolicy').value = settings.privacyPolicy || '';
-      document.getElementById('siteTermsOfService').value = settings.termsOfService || '';
-      document.getElementById('siteShippingPolicy').value = settings.shippingPolicy || '';
     } catch (err) {
       showToast(err.message, 'error');
     }
@@ -274,13 +265,6 @@
       colorPrimary: document.getElementById('colorPrimary').value,
       colorBgPrimary: document.getElementById('colorBgPrimary').value,
       colorTextPrimary: document.getElementById('colorTextPrimary').value,
-      heroTitle: document.getElementById('siteHeroTitle').value,
-      heroDesc: document.getElementById('siteHeroDesc').value,
-      aboutTitle: document.getElementById('siteAboutTitle').value,
-      aboutDesc: document.getElementById('siteAboutDesc').value,
-      privacyPolicy: document.getElementById('sitePrivacyPolicy').value,
-      termsOfService: document.getElementById('siteTermsOfService').value,
-      shippingPolicy: document.getElementById('siteShippingPolicy').value,
       logoUrl: currentLogo,
     };
  

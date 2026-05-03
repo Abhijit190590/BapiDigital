@@ -164,6 +164,31 @@
                    <option value="sunset-orange">Sunset Orange</option>
                  </select>
                </div>
+             </div>
+           </div>
+         </div>
+         <div style="margin-top: var(--space-xl); text-align: right;">
+           <button class="btn btn-primary btn-lg" onclick="saveSettings()">💾 Save All Changes</button>
+         </div>
+       </div>
+
+                 <button class="btn btn-outline btn-sm" onclick="document.getElementById('logoInput').click()">Change Logo</button>
+                 <input type="file" id="logoInput" accept="image/*" style="display:none;" onchange="handleLogoUpload(event)">
+               </div>
+             </div>
+
+             <div style="margin-top: 20px; padding-top: 20px; border-top: 1px solid var(--border-color);">
+               <h3 style="margin-bottom: var(--space-md);">🎨 Theme Presets</h3>
+               <div class="form-group">
+                 <label for="themePreset">Select a Theme</label>
+                 <select id="themePreset" class="form-control" onchange="applyThemePreset(this.value)">
+                   <option value="modern-indigo">Modern Indigo (Default)</option>
+                   <option value="sleek-dark">Sleek Dark</option>
+                   <option value="minimal-white">Minimal White</option>
+                   <option value="ocean-blue">Ocean Blue</option>
+                   <option value="sunset-orange">Sunset Orange</option>
+                 </select>
+               </div>
              <div class="custom-section-divider">
                <p style="font-size: 0.8rem; color: var(--text-muted); margin-bottom: var(--space-sm);">Current Custom Colors:</p>
                <div class="form-group">
