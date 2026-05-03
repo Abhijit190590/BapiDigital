@@ -257,14 +257,10 @@
 }
 
 .sidebar-brand .icon {
-  width: 32px; height: 32px;
-  background: var(--primary);
-  color: white;
+  width: 32px;
+  height: 32px;
   border-radius: 8px;
-  display: flex;
-  align-items: center;
-  justify-content: center;
-  font-size: 1rem;
+  object-fit: cover;
 }
 
 .sidebar-nav {
@@ -467,12 +463,46 @@
 .action-btn.delete:hover { background: #ef4444; color: white; }
 
 /* Configuration Cards */
-.whatsapp-config, .custom-card {
+.whatsapp-config {
   background: var(--bg-card);
   border: 1px solid var(--border-color);
   border-radius: var(--radius-lg);
   padding: 30px;
   box-shadow: var(--shadow-sm);
+}
+
+.customization-grid {
+  display: grid;
+  grid-template-columns: repeat(auto-fit, minmax(300px, 1fr));
+  gap: 30px;
+  margin-bottom: 30px;
+}
+
+.custom-card {
+  background: var(--bg-secondary);
+  border: 1px solid var(--border-color);
+  border-radius: var(--radius-lg);
+  padding: 30px;
+  box-shadow: var(--shadow-sm);
+  transition: var(--transition);
+}
+
+.custom-card:hover {
+  border-color: var(--primary-soft);
+  box-shadow: var(--shadow-md);
+}
+
+.custom-section-divider {
+  margin-top: 20px;
+  padding-top: 20px;
+  border-top: 1px solid var(--border-color);
+}
+
+.custom-section-title {
+  margin-bottom: 15px;
+  font-size: 1rem;
+  font-weight: 600;
+  color: var(--text-main);
 }
 
 .wa-header {

@@ -178,6 +178,21 @@
       if (settings.colorBgPrimary) root.style.setProperty('--dynamic-bg-main', settings.colorBgPrimary);
       if (settings.colorTextPrimary) root.style.setProperty('--dynamic-text-main', settings.colorTextPrimary);
       
+      // Apply Logo
+      if (settings.logoUrl) {
+        document.querySelectorAll('.logo-icon').forEach(img => {
+          if (img.tagName === 'IMG') {
+            img.src = settings.logoUrl;
+          } else {
+            // For any remaining spans, replace with img
+            const logoImg = document.createElement('img');
+            logoImg.src = settings.logoUrl;
+            logoImg.className = 'logo-icon';
+            img.parentNode.replaceChild(logoImg, img);
+          }
+        });
+      }
+      
       // Apply Hero Content (only if it exists on the current page)
       if (settings.heroTitle) {
         const heroH1 = document.querySelector('.hero h1');

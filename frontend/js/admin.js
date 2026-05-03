@@ -7,6 +7,7 @@
 
   let allProducts = [];
   let uploadedImages = [];
+  let currentLogo = null;
   let deleteTargetId = null;
 
   // Init
@@ -113,6 +114,13 @@
     try {
       const settings = await API.getSiteSettings();
       
+      // Logo
+      if (settings.logoUrl) {
+        const preview = document.getElementById('logoPreview');
+        preview.innerHTML = `<img src="${settings.logoUrl}" style="width:100%; height:100%; object-fit:contain;">`;
+        currentLogo = settings.logoUrl;
+      }
+      
       // Colors
       document.getElementById('colorPrimary').value = settings.colorPrimary || '#6366f1';
       document.getElementById('colorBgPrimary').value = settings.colorBgPrimary || '#fcfcfd';
@@ -121,6 +129,11 @@
       // Content
       document.getElementById('siteHeroTitle').value = settings.heroTitle || '';
       document.getElementById('siteHeroDesc').value = settings.heroDesc || '';
+      document.getElementById('siteAboutTitle').value = settings.aboutTitle || '';
+      document.getElementById('siteAboutDesc').value = settings.aboutDesc || '';
+      document.getElementById('sitePrivacyPolicy').value = settings.privacyPolicy || '';
+      document.getElementById('siteTermsOfService').value = settings.termsOfService || '';
+      document.getElementById('siteShippingPolicy').value = settings.shippingPolicy || '';
     } catch (err) {
       showToast(err.message, 'error');
     }
@@ -243,6 +256,19 @@
 
 
 
+  window.handleLogoUpload = async function (event) {
+    const file = event.target.files[0];
+    if (!file) return;
+    
+    try {
+      const base64 = await fileToBase64(file);
+      currentLogo = base64;
+      document.getElementById('logoPreview').innerHTML = `<img src="${base64}" style="width:100%; height:100%; object-fit:contain;">`;
+    } catch (err) {
+      showToast('Error uploading logo', 'error');
+    }
+  };
+
   window.saveSettings = async function () {
     const settings = {
       colorPrimary: document.getElementById('colorPrimary').value,
@@ -250,8 +276,14 @@
       colorTextPrimary: document.getElementById('colorTextPrimary').value,
       heroTitle: document.getElementById('siteHeroTitle').value,
       heroDesc: document.getElementById('siteHeroDesc').value,
+      aboutTitle: document.getElementById('siteAboutTitle').value,
+      aboutDesc: document.getElementById('siteAboutDesc').value,
+      privacyPolicy: document.getElementById('sitePrivacyPolicy').value,
+      termsOfService: document.getElementById('siteTermsOfService').value,
+      shippingPolicy: document.getElementById('siteShippingPolicy').value,
+      logoUrl: currentLogo,
     };
-
+ 
     try {
       await API.updateSiteSettings(settings);
       showToast('Site settings updated successfully!');
@@ -259,6 +291,7 @@
       showToast(err.message, 'error');
     }
   };
+
 
   // Image Upload
 

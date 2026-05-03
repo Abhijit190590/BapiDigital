@@ -103,7 +103,9 @@ button { cursor: pointer; border: none; outline: none; font-family: inherit; }
 }
 
 .nav-brand .logo-icon {
-  font-size: 1.8rem;
+  height: 40px;
+  width: auto;
+  object-fit: contain;
 }
 
 .nav-search {

@@ -14,7 +14,7 @@
     <!-- Sidebar -->
     <aside class="admin-sidebar" id="sidebar">
       <div class="sidebar-brand">
-        <div class="icon">📸</div>
+        <img src="../Logo.jpeg" class="icon" alt="Bapi Digital Logo">
         Bapi Digital
       </div>
        <nav class="sidebar-nav">
@@ -133,24 +133,99 @@
         </div>
       </div>
 
-      <!-- Customize Site Section -->
-      <div class="admin-section" id="sec-customize" style="display:none;">
-        <h2 class="section-title" style="margin-bottom: var(--space-xl);">🎨 <span class="highlight">Customize Site</span></h2>
-        <div class="customization-grid" style="display: grid; grid-template-columns: repeat(auto-fit, minmax(300px, 1fr)); gap: var(--space-xl);">
-          
-          <!-- Colors -->
-          <div class="custom-card" style="background: var(--bg-secondary); padding: var(--space-lg); border-radius: var(--radius-lg); border: 1px solid var(--border);">
-            <h3 style="margin-bottom: var(--space-md);">🎨 Theme Presets</h3>
-            <div class="form-group">
-              <label for="themePreset">Select a Theme</label>
-              <select id="themePreset" class="form-control" onchange="applyThemePreset(this.value)">
-                <option value="modern-indigo">Modern Indigo (Default)</option>
-                <option value="sleek-dark">Sleek Dark</option>
-                <option value="minimal-white">Minimal White</option>
-                <option value="ocean-blue">Ocean Blue</option>
-                <option value="sunset-orange">Sunset Orange</option>
-              </select>
+       <!-- Customize Site Section -->
+       <div class="admin-section" id="sec-customize" style="display:none;">
+         <h2 class="section-title" style="margin-bottom: var(--space-xl);">🎨 <span class="highlight">Customize Site</span></h2>
+         <div class="customization-grid">
+           
+           <!-- Colors -->
+           <div class="custom-card">
+             <h3 style="margin-bottom: var(--space-md);">🖼️ Brand Identity</h3>
+             <div class="form-group">
+               <label>Website Logo</label>
+               <div style="display: flex; align-items: center; gap: 15px;">
+                 <div id="logoPreview" style="width: 60px; height: 60px; border-radius: 12px; border: 1px solid var(--border-color); object-fit: contain; background: var(--bg-main); display: flex; align-items: center; justify-content: center; overflow: hidden;">
+                   <span style="font-size: 0.7rem; color: var(--text-muted);">No Logo</span>
+                 </div>
+                 <button class="btn btn-outline btn-sm" onclick="document.getElementById('logoInput').click()">Change Logo</button>
+                 <input type="file" id="logoInput" accept="image/*" style="display:none;" onchange="handleLogoUpload(event)">
+               </div>
+             </div>
+
+             <div style="margin-top: 20px; padding-top: 20px; border-top: 1px solid var(--border-color);">
+               <h3 style="margin-bottom: var(--space-md);">🎨 Theme Presets</h3>
+               <div class="form-group">
+                 <label for="themePreset">Select a Theme</label>
+                 <select id="themePreset" class="form-control" onchange="applyThemePreset(this.value)">
+                   <option value="modern-indigo">Modern Indigo (Default)</option>
+                   <option value="sleek-dark">Sleek Dark</option>
+                   <option value="minimal-white">Minimal White</option>
+                   <option value="ocean-blue">Ocean Blue</option>
+                   <option value="sunset-orange">Sunset Orange</option>
+                 </select>
+               </div>
+             <div class="custom-section-divider">
+               <p style="font-size: 0.8rem; color: var(--text-muted); margin-bottom: var(--space-sm);">Current Custom Colors:</p>
+               <div class="form-group">
+                 <label>Primary Color</label>
+                 <input type="color" id="colorPrimary" style="width: 100%; height: 40px; cursor: pointer;">
+               </div>
+               <div class="form-group">
+                 <label>Background Color</label>
+                 <input type="color" id="colorBgPrimary" style="width: 100%; height: 40px; cursor: pointer;">
+               </div>
+               <div class="form-group">
+                 <label>Text Color</label>
+                 <input type="color" id="colorTextPrimary" style="width: 100%; height: 40px; cursor: pointer;">
+               </div>
+             </div>
+           </div>
+ 
+            <!-- Content -->
+            <div class="custom-card">
+              <h3 style="margin-bottom: var(--space-md);">📝 Page Content</h3>
+              <div class="form-group">
+                <label for="siteHeroTitle">Hero Title</label>
+                <input type="text" id="siteHeroTitle" class="form-control" placeholder="Welcome to Bapi Digital">
+              </div>
+              <div class="form-group">
+                <label for="siteHeroDesc">Hero Description</label>
+                <textarea id="siteHeroDesc" class="form-control" rows="3" placeholder="Your one-stop shop..."></textarea>
+              </div>
+              <div class="custom-section-divider">
+                <h4 class="custom-section-title">📖 About Page</h4>
+                <div class="form-group">
+                  <label for="siteAboutTitle">About Title</label>
+                  <input type="text" id="siteAboutTitle" class="form-control" placeholder="About Bapi Digital">
+                </div>
+                <div class="form-group">
+                  <label for="siteAboutDesc">About Description</label>
+                  <textarea id="siteAboutDesc" class="form-control" rows="5" placeholder="Tell your story..."></textarea>
+                </div>
+              </div>
+ 
+              <div class="custom-section-divider">
+                <h4 class="custom-section-title">📜 Store Policies</h4>
+                <div class="form-group">
+                  <label for="sitePrivacyPolicy">Privacy Policy</label>
+                  <textarea id="sitePrivacyPolicy" class="form-control" rows="5" placeholder="Privacy Policy content..."></textarea>
+                </div>
+                <div class="form-group">
+                  <label for="siteTermsOfService">Terms of Service</label>
+                  <textarea id="siteTermsOfService" class="form-control" rows="5" placeholder="Terms of Service content..."></textarea>
+                </div>
+                <div class="form-group">
+                  <label for="siteShippingPolicy">Shipping Policy</label>
+                  <textarea id="siteShippingPolicy" class="form-control" rows="5" placeholder="Shipping Policy content..."></textarea>
+                </div>
+              </div>
             </div>
+         </div>
+         <div style="margin-top: var(--space-xl); text-align: right;">
+           <button class="btn btn-primary btn-lg" onclick="saveSettings()">💾 Save All Changes</button>
+         </div>
+       </div>
+
             <div style="margin-top: var(--space-md); padding-top: var(--space-md); border-top: 1px solid var(--border);">
               <p style="font-size: 0.8rem; color: var(--text-muted); margin-bottom: var(--space-sm);">Current Custom Colors:</p>
               <div class="form-group">
