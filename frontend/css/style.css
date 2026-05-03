@@ -892,22 +892,23 @@ button { cursor: pointer; border: none; outline: none; font-family: inherit; }
 @media (max-width: 768px) {
   .navbar { padding: 0 20px; }
   .nav-search { display: none; }
-  .nav-links { 
-    display: flex; 
-    flex-direction: column;
-    position: absolute;
-    top: 80px;
-    left: 0;
-    width: 100%;
-    background: var(--bg-nav);
-    backdrop-filter: blur(12px);
-    padding: 20px;
-    gap: 20px;
-    border-bottom: 1px solid var(--border-color);
-    transform: translateY(-150%);
-    transition: var(--transition);
-    z-index: -1;
-  }
+    .nav-links { 
+      display: flex; 
+      flex-direction: column;
+      position: absolute;
+      top: 80px;
+      left: 0;
+      width: 100%;
+      background: var(--bg-nav);
+      backdrop-filter: blur(12px);
+      padding: 20px;
+      gap: 20px;
+      border-bottom: 1px solid var(--border-color);
+      transform: translateY(-150%);
+      transition: var(--transition);
+      z-index: 1000;
+    }
+
   .nav-links.open {
     transform: translateY(0);
   }
